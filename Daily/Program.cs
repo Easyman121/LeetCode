@@ -2,6 +2,21 @@
 {
     public static void Main()
     {
+        var head = new ListNode();
+        var temphead = head;
+        for (var i = 1; i < 4; i++)
+        {
+            temphead.val = i;
+            temphead.next = new ListNode(0, null);
+            if (i == 3)
+            {
+                temphead.next = null;
+            }
+
+            temphead = temphead.next;
+        }
+
+        ListNode[] test = SplitListToParts(head, 5);
     }
 
 
@@ -197,5 +212,36 @@
         }
 
         return DFS(head, root) || IsSubPath(head, root.left) || IsSubPath(head, root.right);
+    }
+
+    public static ListNode[] SplitListToParts(ListNode head, int k)
+    {
+        var cur = head;
+        var count = 0;
+        while (cur != null)
+        {
+            count++;
+            cur = cur.next;
+        }
+
+        var size = count / k;
+        var extra = count % k;
+        ListNode[] result = new ListNode[k];
+        cur = head;
+        for (var i = 0; i < k && cur != null; i++)
+        {
+            result[i] = cur;
+            var ext = size + (i < extra ? 1 : 0);
+            for (var j = 1; j < ext; j++)
+            {
+                cur = cur.next;
+            }
+
+            var next = cur.next;
+            cur.next = null;
+            cur = next;
+        }
+
+        return result;
     }
 }
