@@ -2,7 +2,7 @@
 {
     public static void Main()
     {
-        Console.WriteLine(Compress(new char[] {'a', 'b', 'c'}));
+        MoveZeroes(new int[] { 0, 0, 1 });
         Console.ReadLine();
     }
 
@@ -162,7 +162,7 @@
         return new string(arr);
     }
 
-    public static string NormalizeWhiteSpace(string input)
+    public string NormalizeWhiteSpace(string input)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -197,7 +197,7 @@
         return new string(output, 0, current);
     }
 
-    public static string ReverseWords(string s)
+    public string ReverseWords(string s)
     {
         string[] arr = s.Split(' ');
         s = "";
@@ -217,7 +217,7 @@
         return s;
     }
 
-    public static int[] ProductExceptSelf(int[] nums)
+    public int[] ProductExceptSelf(int[] nums)
     {
         int numl = nums.Length;
         int[] result = new int[numl];
@@ -268,7 +268,7 @@
         return false;
     }
 
-    public static int Compress(char[] chars)
+    public int Compress(char[] chars)
     {
         string s = "";
         int j = 0;
@@ -300,5 +300,35 @@
             chars[i] = s[i];
         }
         return s.Length;
+    }
+
+    public void MoveZeroes(int[] nums)
+    {
+        int i = 0, j = 0;
+        while (j < nums.Length)
+        {
+            if (nums[j] != 0)
+            {
+                (nums[i], nums[j]) = (nums[j], nums[i]);
+                i++;
+            }
+            j++;
+        }
+    }
+
+    public static bool IsSubsequence(string s, string t)
+    {
+        int i = 0, j = 0;
+        if (s.Length == 0) return true;
+        while (i < t.Length)
+        {
+            if (j == s.Length) return true;
+            if (s[j] == t[i])
+            {
+                j++;
+            }
+            i++;
+        }
+        return j == s.Length ? true : false;
     }
 }
