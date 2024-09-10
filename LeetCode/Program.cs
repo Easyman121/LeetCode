@@ -2,8 +2,7 @@
 {
     public static void Main()
     {
-        var a = "  hello world  ";
-        Console.WriteLine($"1{ReverseWords(a)}1");
+        Console.WriteLine(Compress(new char[] {'a', 'b', 'c'}));
         Console.ReadLine();
     }
 
@@ -73,24 +72,6 @@
         }
 
         return result;
-        /*
-         int len = candies.Length;
-        IList<bool> result = new List<bool>(len);
-for (int i = 0; i < len; i++)
-{
-    result.Add(false);
-}
-int maxCandies = candies.Max();
-for (int i = 0; i < len; i++)
-{
-    if (candies[i] + extraCandies >= maxCandies)
-    {
-        result[i] = true;
-    }
-}
-
-return result;
-         */
     }
 
     public bool CanPlaceFlowers(int[] flowerbed, int n)
@@ -234,5 +215,90 @@ return result;
         }
 
         return s;
+    }
+
+    public static int[] ProductExceptSelf(int[] nums)
+    {
+        int numl = nums.Length;
+        int[] result = new int[numl];
+
+        for (int i =0; i < numl; i++)
+        {
+            result[i] = 1;
+        }
+        int prefix = 1;
+        for (int i = 0; i < numl; i++)
+        {
+            result[i]*= prefix;
+            prefix *= nums[i];
+        }
+
+        int postfix = 1;
+        for (int i = numl - 1; i >= 0; i--)
+        {
+            result[i] *= postfix;
+            postfix *= nums[i];
+        }
+        return result;
+    }
+
+    public bool IncreasingTriplet(int[] nums)
+    {
+        if (nums.Length < 3) return false;
+        int point1, point2;
+        point1 = point2 = int.MaxValue;
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] <= point2)
+            {
+                point2 = nums[i];
+                continue;
+            }
+            else if (nums[i] <= point1)
+            {
+                point1 = nums[i];
+                continue;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int Compress(char[] chars)
+    {
+        string s = "";
+        int j = 0;
+        
+        for (int i = 0; i < chars.Length; i++)
+        {
+            char a = chars[i];
+            int counter = 0;
+            while (j < chars.Length && a == chars[j])
+            {
+                j++;
+                counter++;
+            }
+            if (counter == 1)
+            {
+                s += a;
+            }
+            else
+            {
+                s += a;
+                s += counter.ToString();
+                i = j - 1;
+            }
+            
+        }
+        Array.Resize(ref chars, s.Length);
+        for(int i = 0; i < s.Length; i++)
+        {
+            chars[i] = s[i];
+        }
+        return s.Length;
     }
 }

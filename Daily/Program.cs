@@ -1,22 +1,25 @@
-﻿public class Solution
+﻿
+public class Solution
 {
     public static void Main()
     {
-        var head = new ListNode();
-        var temphead = head;
-        for (var i = 1; i < 4; i++)
+        int[][] array = new int[5][];
+        for (int i = 0; i < 5; i++)
         {
-            temphead.val = i;
-            temphead.next = new ListNode(0, null);
-            if (i == 3)
+            array[i] = new int[3];
+            for (int j = 0; j < 3; j++)
             {
-                temphead.next = null;
+                array[i][j] = -1;
             }
-
-            temphead = temphead.next;
         }
-
-        ListNode[] test = SplitListToParts(head, 5);
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                Console.Write(array[i][j] + " ");
+            }
+            Console.Write("\n");
+        }
     }
 
 
@@ -179,7 +182,7 @@
                 current = current.next;
             }
         }
-
+        
         return dummy.next;
     }
 
@@ -244,4 +247,93 @@
 
         return result;
     }
+
+    public int[][] SpiralMatrix(int m, int n, ListNode head)
+    {
+        void assignarr(ref int arr, ListNode head)
+        {
+            if (head != null)
+            {
+                arr = head.val;
+                head = head.next;
+            }
+        }
+        int[][] array = new int[m][];
+        for (int i = 0; i < m; i++)
+        {
+            array[i] = new int[n];
+            for (int j = 0; j < n; j++)
+            {
+                array[i][j] = -1;
+            }
+        }
+        int top = 0, bottom = m - 1, left = 0, right = n - 1;
+        while (top <= bottom && left <= right)
+        {
+            for (int i = left; i <= right; i++)
+            {
+                assignarr(ref array[top][i], head);
+                
+            }
+            top++; 
+
+            for (int i = top; i <= bottom; i++)
+            {
+                assignarr(ref array[i][right], head);
+            }
+            right--; 
+
+            if (top <= bottom)
+            {
+                for (int i = right; i >= left; i--)
+                {
+                    assignarr(ref array[bottom][i], head);
+                }
+                bottom--; 
+            }
+
+            if (left <= right)
+            {
+                
+                for (int i = bottom; i >= top; i--)
+                {
+                    assignarr(ref array[i][left], head);
+                }
+                left++; 
+            }
+        }
+        return array;
+    }
+
+    public ListNode InsertGreatestCommonDivisors(ListNode head)
+    {
+        int GCD(int a, int b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a | b;
+        }
+        if (head.next == null) return head;
+        ListNode prev = head;
+        ListNode next = head.next;
+        while (next != null)
+        {
+            ListNode GCDNode = new ListNode(GCD(prev.val, next.val), next);
+            prev.next = GCDNode;
+            prev = next;
+            next = next.next;
+        }
+
+        return head;
+        
+    }
+
+   
+
 }
