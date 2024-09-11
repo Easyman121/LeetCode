@@ -1,27 +1,11 @@
 ﻿
 public class Solution
 {
-    public static void Main()
+    public void Main()
     {
-        int[][] array = new int[5][];
-        for (int i = 0; i < 5; i++)
-        {
-            array[i] = new int[3];
-            for (int j = 0; j < 3; j++)
-            {
-                array[i][j] = -1;
-            }
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                Console.Write(array[i][j] + " ");
-            }
-            Console.Write("\n");
-        }
+       
     }
-
+  
 
     public int GetLucky(string s, int k)
     {
@@ -334,6 +318,27 @@ public class Solution
         
     }
 
-   
+    public int MinBitFlips(int start, int goal)
+    {
+        string strstart = Convert.ToString(start, 2);
+        string strgoal = Convert.ToString(goal, 2);
+        if (strstart.Length < strgoal.Length)
+        {
+            strstart = string.Concat(Enumerable.Repeat("0", strgoal.Length - strstart.Length)) + strstart;
+        }
+        else if (strstart.Length > strgoal.Length)
+        {
+            strgoal = string.Concat(Enumerable.Repeat("0", strstart.Length - strgoal.Length)) + strgoal;
+        }
+        int counter = 0;
+        for (int i =0; i < strstart.Length; i++)
+        {
+            if (strstart[i] != strgoal[i])
+            {
+                counter++;
+            }
+        }
+        return counter;
+    }
 
 }

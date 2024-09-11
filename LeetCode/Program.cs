@@ -2,7 +2,6 @@
 {
     public static void Main()
     {
-        MoveZeroes(new int[] { 0, 0, 1 });
         Console.ReadLine();
     }
 
@@ -316,7 +315,7 @@
         }
     }
 
-    public static bool IsSubsequence(string s, string t)
+    public bool IsSubsequence(string s, string t)
     {
         int i = 0, j = 0;
         if (s.Length == 0) return true;
@@ -330,5 +329,50 @@
             i++;
         }
         return j == s.Length ? true : false;
+    }
+
+    public int MaxArea(int[] height)
+    {
+            int i = 0, j = height.Length - 1;
+            int MaxArea = 0;
+        
+            while (i != j)
+            {
+                MaxArea = int.Max(MaxArea,
+                            int.Min(height[i], height[j]) * (j - i));
+
+                if (height[i] < height[j])
+                    i += 1;
+
+                else
+                    j -= 1;
+            }
+            return MaxArea;
+    }
+
+    public int MaxOperations(int[] nums, int k)
+    {
+        Array.Sort(nums);
+        int i = 0, j = nums.Length - 1;
+        int counter = 0;
+        while (i < j && i < nums.Length - 1 && j >= 0)
+        {
+            if (nums[i] + nums[j] == k)
+            {
+                counter++;
+                i++;
+                j--;
+            }
+            else if (nums[i] + nums[j] < k)
+            {
+                i++;
+            }
+            else
+            {
+                j--;
+            }
+
+        }
+        return counter;
     }
 }
