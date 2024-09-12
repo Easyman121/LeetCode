@@ -341,4 +341,22 @@ public class Solution
         return counter;
     }
 
+    public int CountConsistentStrings(string allowed, string[] words)
+    {
+        HashSet<char> chars = [..allowed];
+        
+
+        int count = 0;
+        foreach (string s in words) {
+            bool isGood = true;
+            for (int i =0; i < s.Length; i++)
+            {
+                if (!chars.Contains(s[i])) { isGood = false; }
+            }
+            if (isGood) count++;
+        }
+        return count;
+    }
+
+
 }
