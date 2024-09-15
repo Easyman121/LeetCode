@@ -1,9 +1,18 @@
 ﻿
 public class Solution
 {
-    public void Main()
+    public static void Main()
     {
-       
+        int[] a = { 1, 3, 4, 8 };
+        int[][] queries = new int[][]
+{
+    new int[] { 0, 1 },
+    new int[] { 1, 2 },
+    new int[] { 0, 3 },
+    new int[] { 3, 3 }
+};
+        XorQueries(a, queries);
+        Console.ReadLine();
     }
   
 
@@ -358,5 +367,34 @@ public class Solution
         return count;
     }
 
+    public static int[] XorQueries(int[] arr, int[][] queries)
+    {
+        int n = arr.Length;
+        int[] prefixXOR = new int[n];
+        prefixXOR[0] = arr[0];
 
+        for (int i = 1; i < n; i++)
+        {
+            prefixXOR[i] = prefixXOR[i - 1] ^ arr[i];
+        }
+
+        int[] answer = new int[queries.Length];
+
+        for (int i = 0; i < queries.Length; i++)
+        {
+            int left = queries[i][0];
+            int right = queries[i][1];
+
+            if (left == 0)
+            {
+                answer[i] = prefixXOR[right];
+            }
+            else
+            {
+                answer[i] = prefixXOR[right] ^ prefixXOR[left - 1];
+            }
+        }
+
+        return answer;
+    }
 }

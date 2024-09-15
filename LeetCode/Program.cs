@@ -1,8 +1,10 @@
-﻿public class Solution
+﻿using System.Collections;
+
+public class Solution
 {
     public static void Main()
     {
-        Console.ReadLine();
+        
     }
 
     public string MergeAlternately(string word1, string word2)
