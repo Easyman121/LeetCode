@@ -3,16 +3,11 @@ public class Solution
 {
     public static void Main()
     {
-        int[] a = { 1, 3, 4, 8 };
-        int[][] queries = new int[][]
-{
-    new int[] { 0, 1 },
-    new int[] { 1, 2 },
-    new int[] { 0, 3 },
-    new int[] { 3, 3 }
-};
-        XorQueries(a, queries);
-        Console.ReadLine();
+        IList<string> list = new List<string>();
+        list.Add("00:00");
+        list.Add("23:59");
+        list.Add("00:00");
+        Console.WriteLine(FindMinDifference(list));
     }
   
 
@@ -396,5 +391,30 @@ public class Solution
         }
 
         return answer;
+    }
+
+    public int FindMinDifference(IList<string> timePoints)
+    {
+        List<int> minutes = new List<int>();
+
+        foreach (string time in timePoints)
+        {
+            string[] split = time.Split(':');
+            minutes.Add(int.Parse(split[0]) * 60 + int.Parse(split[1]));
+        }
+
+        minutes.Sort();
+
+        int minDifference = int.MaxValue;
+
+        for (int i = 1; i < minutes.Count; i++)
+        {
+            minDifference = Math.Min(minDifference, minutes[i] - minutes[i - 1]);
+        }
+
+        int circularDifference = (1440 - minutes[minutes.Count - 1]) + minutes[0];
+        minDifference = Math.Min(minDifference, circularDifference);
+
+        return minDifference;
     }
 }
