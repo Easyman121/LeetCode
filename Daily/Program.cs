@@ -3,11 +3,7 @@ public class Solution
 {
     public static void Main()
     {
-        IList<string> list = new List<string>();
-        list.Add("00:00");
-        list.Add("23:59");
-        list.Add("00:00");
-        Console.WriteLine(FindMinDifference(list));
+        
     }
   
 
@@ -362,7 +358,7 @@ public class Solution
         return count;
     }
 
-    public static int[] XorQueries(int[] arr, int[][] queries)
+    public int[] XorQueries(int[] arr, int[][] queries)
     {
         int n = arr.Length;
         int[] prefixXOR = new int[n];
@@ -416,5 +412,29 @@ public class Solution
         minDifference = Math.Min(minDifference, circularDifference);
 
         return minDifference;
+    }
+
+    public string[] UncommonFromSentences(string s1, string s2)
+    {
+        string[] ss1 = s1.Split(' ');
+        string[] ss2 = s2.Split(' ');
+        List<string> list = new List<string>();
+        foreach (string ss in ss1)
+        {
+            if (ss1.Count(x => x == ss) == 1 && !ss2.Contains(ss))
+            {
+                list.Add(ss);
+            }
+        }
+        foreach (string ss in ss2)
+        {
+            if (ss2.Count(x => x == ss) == 1 && !ss1.Contains(ss))
+            {
+                list.Add(ss);
+            }
+        }
+        
+
+        return list.ToArray();
     }
 }
