@@ -1,4 +1,6 @@
 ﻿
+using System.Text;
+
 public class Solution
 {
     public static void Main()
@@ -436,5 +438,14 @@ public class Solution
         
 
         return list.ToArray();
+    }
+
+    public string LargestNumber(int[] nums) {
+        Array.Sort(nums, (a, b) => 
+        StringComparer.Ordinal.Compare(b.ToString() + a.ToString()
+        , a.ToString() + b.ToString()));
+        if (nums[0] == 0) return "0";
+        return string.Concat(nums);
+
     }
 }

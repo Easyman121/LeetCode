@@ -4,7 +4,8 @@ public class Solution
 {
     public static void Main()
     {
-        
+        Console.WriteLine(FindMaxAverage(new int[] {0, 1,1 ,3,3}, 4));
+        Console.ReadLine();
     }
 
     public string MergeAlternately(string word1, string word2)
@@ -378,5 +379,87 @@ public class Solution
         return counter;
     }
 
+    public double FindMaxAverage(int[] nums, int k) {
+        
+        double sum = 0;
+        if (nums.Length == 1 && k == 1) return nums[0];
+        for( int i =0; i <k; i++)
+        {
+            sum+= nums[i];
+        }
+        double Max = sum/k;
+        for (int i = k; i < nums.Length; i++) {
+            sum += nums[i];
+            sum -= nums[i-k];
+            Max = Math.Max(Max, sum/k);
+        }
+        return Max;
+    }
 
+    public int MaxVowels(string s, int k) {
+        bool isVowel(char a)
+        {
+            return a == 'a' || a == 'e' || a=='i' || a=='o' || a=='u';
+        }
+        // func faster than hashset? wtf?
+        int count = 0;
+        for (int i = 0; i < k; i++)
+        {
+            if (isVowel(s[i]))
+            {
+                count++;
+            }
+        }
+        int Max = count;
+        for (int i = k; i < s.Length; i++) {
+            if (isVowel(s[i])) count++;
+            if ( isVowel(s[i-k])) count--;
+            Max = int.Max(Max, count);
+            if (Max == k) break;
+        }
+        return Max;
+    }
+
+    public int LongestOnes(int[] nums, int k) {
+        int max = 0;
+        int i=0, j=0, zero = 0;
+        while(j <  nums.Length) {
+            if (nums[j] == 0) zero++;
+            while (k < zero) {
+                if (nums[i] == 0) zero--;
+                i++;
+            }
+            max = int.Max(max, j-i+1);
+            j++;
+        }
+        return max;
+    }
+
+     public int LongestSubarray(int[] nums) {
+        int max=0, curr=0, prev = 0;
+        for (int i = 0;  i < nums.Length; i++) {
+            if (nums[i] ==0) {
+                max = Math.Max(max, prev+curr);
+                prev = curr; curr = 0;
+            }
+            else
+            {
+                curr++;
+            }
+        }
+        if (curr == nums.Length) return curr-1;
+        max = Math.Max(max, prev+curr);
+        return max;
+    }
+
+    public int LargestAltitude(int[] gain) {
+        int[]a = new int[gain.Length+1];
+        a[0] = 0;
+        int Max = 0;
+        for (int i =1; i < a.Length; i++) { 
+            a[i] = a[i-1]+gain[i-1];
+            Max = Math.Max(Max, a[i]);
+        }
+        return Max;
+    }
 }
