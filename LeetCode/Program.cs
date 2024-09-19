@@ -462,4 +462,85 @@ public class Solution
         }
         return Max;
     }
+
+    public int PivotIndex(int[] nums) {
+        List<int> psum = new List<int>();
+        psum.Add(0);
+        foreach(int i in nums)
+        {
+            psum.Add(psum[psum.Count-1]+i);
+        }
+        for (int i =0; i < psum.Count-1; i++)
+        {
+            if (psum[i] == psum[nums.Length] - psum[i+1]) return i;
+        }
+        return -1;
+    }
+
+    public IList<IList<int>> FindDifference(int[] nums1, int[] nums2) {
+        HashSet<int> a = new HashSet<int>(nums1);
+        HashSet<int> b = new HashSet<int>(nums2);
+        IList<IList<int>> ints = new List<IList<int>>() { new List<int>, new List<int>};
+
+        for(int i =0; i < nums1.Length; i++)
+        {
+            if (!b.Contains(nums1[i])) { if (!ints[0].Contains(nums1[i])) ints[0].Add(nums1[i]);}
+        }
+        for(int i =0; i < nums2.Length; i++)
+        {
+            if (!a.Contains(nums2[i]))
+            {
+                if (!ints[1].Contains(nums2[i])) ints[1].Add(nums2[i]);
+            }
+        }
+        return ints;
+    }
+
+    public bool UniqueOccurrences(int[] arr) {
+        HashSet <int> a = new HashSet<int>(arr);
+        Dictionary<int, int> countMap = new Dictionary<int, int>();
+        
+        foreach (int num in arr)
+        {
+            if (countMap.ContainsKey(num))
+                countMap[num]++;
+            else
+                countMap[num] = 1;
+        }
+
+        return countMap.Values.Distinct().Count() == countMap.Count;
+    }
+
+    public bool CloseStrings(string word1, string word2) {
+        Dictionary<char, int> CreateDict(string word)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            foreach(char c in word) {
+                if (dict.TryGetValue(c, out int frequency))
+                {
+                    dict[c] = frequency+1;
+                }
+                else
+                {
+                    dict[c]=1;
+                }
+            }
+            return dict;
+        }
+        bool Check(Dictionary<char, int> a, Dictionary<char, int> b)
+        {
+            foreach(char c in a.Keys) {
+                if (!b.ContainsKey(c)) return false;
+            }
+            return true;
+        }
+        if (word1.Length != word2.Length) return false;
+
+        Dictionary<char, int> freq1 = CreateDict(word1);
+        Dictionary<char, int> freq2 = CreateDict(word2);
+
+        if (!Check(freq1, freq2)) return false;
+        if (!Check(freq2, freq1)) return false;
+        return freq1.Values.Order().SequenceEqual(freq2.Values.Order());
+     }
 }

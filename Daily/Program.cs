@@ -1,4 +1,5 @@
 ﻿
+using System.Linq.Expressions;
 using System.Text;
 
 public class Solution
@@ -447,5 +448,29 @@ public class Solution
         if (nums[0] == 0) return "0";
         return string.Concat(nums);
 
+    }
+
+    public IList<int> DiffWaysToCompute(string expression) {
+        IList<int> list = new List<int>();
+        
+        for (int i =0; i < expression.Length; i++) {
+            char oper = expression[i];
+            if (oper == '+' || oper == '-' || oper == '*')
+            {
+                IList<int>ilist1 = DiffWaysToCompute(expression.Substring(0, i));
+                IList<int>ilist2 = DiffWaysToCompute(expression.Substring(i+1));
+                foreach (int a in ilist1)
+                {
+                    foreach(int b in ilist2)
+                    {
+                        if ( oper == '+') list.Add(a+b);
+                        else if (oper == '-') list.Add(a-b);
+                        else if (oper == '*') list.Add(a*b);
+                    }
+                }
+            }           
+        }
+        if (list.Count == 0) list.Add(int.Parse(expression));
+        return list;
     }
 }
