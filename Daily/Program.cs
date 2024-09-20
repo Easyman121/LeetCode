@@ -214,7 +214,7 @@
         return DFS(head, root) || IsSubPath(head, root.left) || IsSubPath(head, root.right);
     }
 
-    public static ListNode[] SplitListToParts(ListNode head, int k)
+    public ListNode[] SplitListToParts(ListNode head, int k)
     {
         var cur = head;
         var count = 0;
@@ -243,5 +243,42 @@
         }
 
         return result;
+    }
+
+    public string ShortestPalindrome(string s)
+    {
+        int[] MakeKMP(string s)
+        {
+            var table = new int[s.Length];
+            var j = 0;
+            for (var i = 0; i < s.Length; i++)
+            {
+                while (j > 0 && s[i] != s[j])
+                {
+                    j = table[j - 1];
+                }
+
+                if (s[i] == s[j])
+                {
+                    j++;
+                }
+
+                table[i] = j;
+            }
+
+            return table;
+        }
+
+        if (string.IsNullOrEmpty(s))
+        {
+            return s;
+        }
+
+        var reversed = new string(s.Reverse().ToArray());
+        var combined = s + "#" + reversed;
+        var kmpTable = MakeKMP(combined);
+        var charactersToAdd = s.Length - kmpTable[combined.Length - 1];
+
+        return reversed.Substring(0, charactersToAdd) + s;
     }
 }
