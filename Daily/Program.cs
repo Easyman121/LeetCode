@@ -1,14 +1,9 @@
-﻿
-using System.Linq.Expressions;
-using System.Text;
-
-public class Solution
+﻿public class Solution
 {
     public static void Main()
     {
-        
     }
-  
+
 
     public int GetLucky(string s, int k)
     {
@@ -169,7 +164,7 @@ public class Solution
                 current = current.next;
             }
         }
-        
+
         return dummy.next;
     }
 
@@ -282,50 +277,55 @@ public class Solution
                 head = head.next;
             }
         }
+
         int[][] array = new int[m][];
-        for (int i = 0; i < m; i++)
+        for (var i = 0; i < m; i++)
         {
             array[i] = new int[n];
-            for (int j = 0; j < n; j++)
+            for (var j = 0; j < n; j++)
             {
                 array[i][j] = -1;
             }
         }
+
         int top = 0, bottom = m - 1, left = 0, right = n - 1;
         while (top <= bottom && left <= right)
         {
-            for (int i = left; i <= right; i++)
+            for (var i = left; i <= right; i++)
             {
                 assignarr(ref array[top][i], head);
-                
             }
-            top++; 
 
-            for (int i = top; i <= bottom; i++)
+            top++;
+
+            for (var i = top; i <= bottom; i++)
             {
                 assignarr(ref array[i][right], head);
             }
-            right--; 
+
+            right--;
 
             if (top <= bottom)
             {
-                for (int i = right; i >= left; i--)
+                for (var i = right; i >= left; i--)
                 {
                     assignarr(ref array[bottom][i], head);
                 }
-                bottom--; 
+
+                bottom--;
             }
 
             if (left <= right)
             {
-                
-                for (int i = bottom; i >= top; i--)
+                for (var i = bottom; i >= top; i--)
                 {
                     assignarr(ref array[i][left], head);
                 }
-                left++; 
+
+                left++;
             }
         }
+
         return array;
     }
 
@@ -336,32 +336,40 @@ public class Solution
             while (a != 0 && b != 0)
             {
                 if (a > b)
+                {
                     a %= b;
+                }
                 else
+                {
                     b %= a;
+                }
             }
 
             return a | b;
         }
-        if (head.next == null) return head;
-        ListNode prev = head;
-        ListNode next = head.next;
+
+        if (head.next == null)
+        {
+            return head;
+        }
+
+        var prev = head;
+        var next = head.next;
         while (next != null)
         {
-            ListNode GCDNode = new ListNode(GCD(prev.val, next.val), next);
+            var GCDNode = new ListNode(GCD(prev.val, next.val), next);
             prev.next = GCDNode;
             prev = next;
             next = next.next;
         }
 
         return head;
-        
     }
 
     public int MinBitFlips(int start, int goal)
     {
-        string strstart = Convert.ToString(start, 2);
-        string strgoal = Convert.ToString(goal, 2);
+        var strstart = Convert.ToString(start, 2);
+        var strgoal = Convert.ToString(goal, 2);
         if (strstart.Length < strgoal.Length)
         {
             strstart = string.Concat(Enumerable.Repeat("0", strgoal.Length - strstart.Length)) + strstart;
@@ -370,51 +378,62 @@ public class Solution
         {
             strgoal = string.Concat(Enumerable.Repeat("0", strstart.Length - strgoal.Length)) + strgoal;
         }
-        int counter = 0;
-        for (int i =0; i < strstart.Length; i++)
+
+        var counter = 0;
+        for (var i = 0; i < strstart.Length; i++)
         {
             if (strstart[i] != strgoal[i])
             {
                 counter++;
             }
         }
+
         return counter;
     }
 
     public int CountConsistentStrings(string allowed, string[] words)
     {
         HashSet<char> chars = [..allowed];
-        
 
-        int count = 0;
-        foreach (string s in words) {
-            bool isGood = true;
-            for (int i =0; i < s.Length; i++)
+
+        var count = 0;
+        foreach (var s in words)
+        {
+            var isGood = true;
+            for (var i = 0; i < s.Length; i++)
             {
-                if (!chars.Contains(s[i])) { isGood = false; }
+                if (!chars.Contains(s[i]))
+                {
+                    isGood = false;
+                }
             }
-            if (isGood) count++;
+
+            if (isGood)
+            {
+                count++;
+            }
         }
+
         return count;
     }
 
     public int[] XorQueries(int[] arr, int[][] queries)
     {
-        int n = arr.Length;
-        int[] prefixXOR = new int[n];
+        var n = arr.Length;
+        var prefixXOR = new int[n];
         prefixXOR[0] = arr[0];
 
-        for (int i = 1; i < n; i++)
+        for (var i = 1; i < n; i++)
         {
             prefixXOR[i] = prefixXOR[i - 1] ^ arr[i];
         }
 
-        int[] answer = new int[queries.Length];
+        var answer = new int[queries.Length];
 
-        for (int i = 0; i < queries.Length; i++)
+        for (var i = 0; i < queries.Length; i++)
         {
-            int left = queries[i][0];
-            int right = queries[i][1];
+            var left = queries[i][0];
+            var right = queries[i][1];
 
             if (left == 0)
             {
@@ -431,9 +450,9 @@ public class Solution
 
     public int FindMinDifference(IList<string> timePoints)
     {
-        List<int> minutes = new List<int>();
+        var minutes = new List<int>();
 
-        foreach (string time in timePoints)
+        foreach (var time in timePoints)
         {
             string[] split = time.Split(':');
             minutes.Add(int.Parse(split[0]) * 60 + int.Parse(split[1]));
@@ -441,14 +460,14 @@ public class Solution
 
         minutes.Sort();
 
-        int minDifference = int.MaxValue;
+        var minDifference = int.MaxValue;
 
-        for (int i = 1; i < minutes.Count; i++)
+        for (var i = 1; i < minutes.Count; i++)
         {
             minDifference = Math.Min(minDifference, minutes[i] - minutes[i - 1]);
         }
 
-        int circularDifference = (1440 - minutes[minutes.Count - 1]) + minutes[0];
+        var circularDifference = 1440 - minutes[minutes.Count - 1] + minutes[0];
         minDifference = Math.Min(minDifference, circularDifference);
 
         return minDifference;
@@ -458,56 +477,111 @@ public class Solution
     {
         string[] ss1 = s1.Split(' ');
         string[] ss2 = s2.Split(' ');
-        List<string> list = new List<string>();
-        foreach (string ss in ss1)
+        List<string> list = new();
+        foreach (var ss in ss1)
         {
             if (ss1.Count(x => x == ss) == 1 && !ss2.Contains(ss))
             {
                 list.Add(ss);
             }
         }
-        foreach (string ss in ss2)
+
+        foreach (var ss in ss2)
         {
             if (ss2.Count(x => x == ss) == 1 && !ss1.Contains(ss))
             {
                 list.Add(ss);
             }
         }
-        
+
 
         return list.ToArray();
     }
 
-    public string LargestNumber(int[] nums) {
-        Array.Sort(nums, (a, b) => 
-        StringComparer.Ordinal.Compare(b.ToString() + a.ToString()
-        , a.ToString() + b.ToString()));
-        if (nums[0] == 0) return "0";
-        return string.Concat(nums);
+    public string LargestNumber(int[] nums)
+    {
+        Array.Sort(nums, (a, b) =>
+            StringComparer.Ordinal.Compare(b.ToString() + a.ToString()
+                , a.ToString() + b.ToString()));
+        if (nums[0] == 0)
+        {
+            return "0";
+        }
 
+        return string.Concat(nums);
     }
 
-    public IList<int> DiffWaysToCompute(string expression) {
+    public IList<int> DiffWaysToCompute(string expression)
+    {
         IList<int> list = new List<int>();
-        
-        for (int i =0; i < expression.Length; i++) {
-            char oper = expression[i];
+
+        for (var i = 0; i < expression.Length; i++)
+        {
+            var oper = expression[i];
             if (oper == '+' || oper == '-' || oper == '*')
             {
-                IList<int>ilist1 = DiffWaysToCompute(expression.Substring(0, i));
-                IList<int>ilist2 = DiffWaysToCompute(expression.Substring(i+1));
-                foreach (int a in ilist1)
+                var ilist1 = DiffWaysToCompute(expression.Substring(0, i));
+                var ilist2 = DiffWaysToCompute(expression.Substring(i + 1));
+                foreach (var a in ilist1)
                 {
-                    foreach(int b in ilist2)
+                    foreach (var b in ilist2)
                     {
-                        if ( oper == '+') list.Add(a+b);
-                        else if (oper == '-') list.Add(a-b);
-                        else if (oper == '*') list.Add(a*b);
+                        if (oper == '+')
+                        {
+                            list.Add(a + b);
+                        }
+                        else if (oper == '-')
+                        {
+                            list.Add(a - b);
+                        }
+                        else if (oper == '*')
+                        {
+                            list.Add(a * b);
+                        }
                     }
                 }
-            }           
+            }
         }
-        if (list.Count == 0) list.Add(int.Parse(expression));
+
+        if (list.Count == 0)
+        {
+            list.Add(int.Parse(expression));
+        }
+
         return list;
+    }
+
+    public IList<int> LexicalOrder(int n)
+    {
+        var result = new List<int>();
+        var current = 1;
+
+        for (var i = 0; i < n; i++)
+        {
+            result.Add(current);
+
+            // Try to go deeper (multiply by 10)
+            if (current * 10 <= n)
+            {
+                current *= 10;
+            }
+            // Increment current, or handle boundary and end digits
+            else if (current % 10 != 9 && current + 1 <= n)
+            {
+                current++;
+            }
+            // Backtrack until we can increment to next valid number
+            else
+            {
+                while (current / 10 % 10 == 9)
+                {
+                    current /= 10;
+                }
+
+                current = current / 10 + 1;
+            }
+        }
+
+        return result;
     }
 }
