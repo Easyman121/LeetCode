@@ -1,7 +1,10 @@
-﻿public class Solution
+﻿using System.Linq;
+
+public class Solution
 {
     public static void Main()
     {
+        Console.WriteLine(MinExtraChar("leetscode", new string[] {"leet",  "code", "leetcode"}));
     }
 
 
@@ -583,5 +586,28 @@
         }
 
         return result;
+    }
+
+    public static int MinExtraChar(string s, string[] dictionary) {
+        var sentenceLength = s.Length;
+        var dp = new List<int>() {0};
+        for (var i = 0; i < sentenceLength; ++i)
+        {
+            var match = dp[i];
+            foreach (var word in dictionary)
+            {
+                var wordLength = word.Length;
+                var offset = i - wordLength + 1;
+                var maxLength = Math.Min(wordLength, sentenceLength - offset);
+
+                if ( offset >= 0&& s.Substring(offset, maxLength) == word ) // if match
+                {
+                    match = Math.Max(match, dp[offset] + wordLength);
+                }
+            }
+            dp.Add(match);
+        }
+
+        return sentenceLength - dp[^1];
     }
 }
