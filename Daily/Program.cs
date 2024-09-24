@@ -616,28 +616,23 @@ public class Solution
    
 
     public int LongestCommonPrefix(int[] arr1, int[] arr2) {
-       HashSet<int> s1=new HashSet<int>();
-         HashSet<int> s2=new HashSet<int>();
-         for(int i=0; i<arr1.Length; i++){
-             int x=arr1[i];
-             while(x!=0){
-                 if (!s1.Contains(x))s1.Add(x);
-                 x/=10;
-             }
-         }
-         for(int i=0; i<arr2.Length; i++){
-             int x=arr2[i];
-             while(x!=0){
-                 if (!s2.Contains(x))s2.Add(x);
-                 x/=10;
-             }
-         }
-         int max=0;
-         foreach(int y in s1){
-             if (s2.Contains(y)){
-                max=Math.Max(max,y.ToString().Length);
-             }
-         }
-         return max;
+       
+        HashSet<int> prefixes = [];
+for (var i = 0; i < arr1.Length; i++){
+    var num = arr1[i];
+    while (num > 0){
+        prefixes.Add(num);
+        num/=10;
+    }
+}
+var max = 0;
+for (var i =0 ; i < arr2.Length; i++){
+    var num = arr2[i];
+    while (num > 0 && !prefixes.Contains(num)){
+        num/=10;
+    }
+    if (prefixes.Contains(num)) max = int.Max(max, Log10(num));
+}
+return max;
     }
 }
