@@ -1,10 +1,12 @@
 ﻿using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 public class Solution
 {
     public static void Main()
     {
-        Console.WriteLine(MinExtraChar("leetscode", new string[] {"leet",  "code", "leetcode"}));
+
     }
 
 
@@ -588,7 +590,7 @@ public class Solution
         return result;
     }
 
-    public static int MinExtraChar(string s, string[] dictionary) {
+    public int MinExtraChar(string s, string[] dictionary) {
         var sentenceLength = s.Length;
         var dp = new List<int>() {0};
         for (var i = 0; i < sentenceLength; ++i)
@@ -609,5 +611,33 @@ public class Solution
         }
 
         return sentenceLength - dp[^1];
+    }
+
+   
+
+    public int LongestCommonPrefix(int[] arr1, int[] arr2) {
+       HashSet<int> s1=new HashSet<int>();
+         HashSet<int> s2=new HashSet<int>();
+         for(int i=0; i<arr1.Length; i++){
+             int x=arr1[i];
+             while(x!=0){
+                 if (!s1.Contains(x))s1.Add(x);
+                 x/=10;
+             }
+         }
+         for(int i=0; i<arr2.Length; i++){
+             int x=arr2[i];
+             while(x!=0){
+                 if (!s2.Contains(x))s2.Add(x);
+                 x/=10;
+             }
+         }
+         int max=0;
+         foreach(int y in s1){
+             if (s2.Contains(y)){
+                max=Math.Max(max,y.ToString().Length);
+             }
+         }
+         return max;
     }
 }
