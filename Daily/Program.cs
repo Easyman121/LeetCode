@@ -631,7 +631,7 @@ for (var i =0 ; i < arr2.Length; i++){
     while (num > 0 && !prefixes.Contains(num)){
         num/=10;
     }
-    if (prefixes.Contains(num)) max = int.Max(max, Log10(num));
+    if (prefixes.Contains(num)) max = int.Max(max, num.ToString().Length);
 }
 return max;
     }
