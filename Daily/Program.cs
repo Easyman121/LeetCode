@@ -1,8 +1,14 @@
-﻿public class Solution
+﻿using Daily;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+public class Solution
 {
     public static void Main()
     {
-        Console.WriteLine("llohe".Contains("he").ToString());
+
+        
     }
 
 
