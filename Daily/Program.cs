@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
-public class Solution
+﻿public class Solution
 {
     public static void Main()
     {
@@ -590,9 +586,10 @@ public class Solution
         return result;
     }
 
-    public int MinExtraChar(string s, string[] dictionary) {
+    public int MinExtraChar(string s, string[] dictionary)
+    {
         var sentenceLength = s.Length;
-        var dp = new List<int>() {0};
+        var dp = new List<int>() { 0 };
         for (var i = 0; i < sentenceLength; ++i)
         {
             var match = dp[i];
@@ -602,86 +599,129 @@ public class Solution
                 var offset = i - wordLength + 1;
                 var maxLength = Math.Min(wordLength, sentenceLength - offset);
 
-                if ( offset >= 0&& s.Substring(offset, maxLength) == word ) // if match
+                if (offset >= 0 && s.Substring(offset, maxLength) == word) // if match
                 {
                     match = Math.Max(match, dp[offset] + wordLength);
                 }
             }
+
             dp.Add(match);
         }
 
         return sentenceLength - dp[^1];
     }
 
-   
 
-    public int LongestCommonPrefix(int[] arr1, int[] arr2) {
-       
+    public int LongestCommonPrefix(int[] arr1, int[] arr2)
+    {
         HashSet<int> prefixes = [];
-for (var i = 0; i < arr1.Length; i++){
-    var num = arr1[i];
-    while (num > 0){
-        prefixes.Add(num);
-        num/=10;
-    }
-}
-var max = 0;
-for (var i =0 ; i < arr2.Length; i++){
-    var num = arr2[i];
-    while (num > 0 && !prefixes.Contains(num)){
-        num/=10;
-    }
-    if (prefixes.Contains(num)) max = int.Max(max, num.ToString().Length);
-}
-return max;
+        for (var i = 0; i < arr1.Length; i++)
+        {
+            var num = arr1[i];
+            while (num > 0)
+            {
+                prefixes.Add(num);
+                num /= 10;
+            }
+        }
+
+        var max = 0;
+        for (var i = 0; i < arr2.Length; i++)
+        {
+            var num = arr2[i];
+            while (num > 0 && !prefixes.Contains(num))
+            {
+                num /= 10;
+            }
+
+            if (prefixes.Contains(num))
+            {
+                max = int.Max(max, num.ToString().Length);
+            }
+        }
+
+        return max;
     }
 
-    public class TrieNode {
+    public class TrieNode
+    {
         public Dictionary<char, TrieNode> Children;
         public int Count; // keeps track of how many words share this prefix
-        
-        public TrieNode() {
+
+        public TrieNode()
+        {
             Children = new Dictionary<char, TrieNode>();
             Count = 0;
         }
     }
 
-    private void Insert(TrieNode root, string word) {
-        TrieNode currentNode = root;
-        foreach (char c in word) {
-            if (!currentNode.Children.ContainsKey(c)) {
+    private void Insert(TrieNode root, string word)
+    {
+        var currentNode = root;
+        foreach (var c in word)
+        {
+            if (!currentNode.Children.ContainsKey(c))
+            {
                 currentNode.Children[c] = new TrieNode();
             }
+
             currentNode = currentNode.Children[c];
-            currentNode.Count++;  // increase the prefix count
+            currentNode.Count++; // increase the prefix count
         }
     }
 
-    private int GetScore(TrieNode root, string word) {
-        TrieNode currentNode = root;
-        int score = 0;
-        foreach (char c in word) {
+    private int GetScore(TrieNode root, string word)
+    {
+        var currentNode = root;
+        var score = 0;
+        foreach (var c in word)
+        {
             currentNode = currentNode.Children[c];
             score += currentNode.Count;
         }
+
         return score;
     }
-    public int[] SumPrefixScores(string[] words) {
-        TrieNode root = new TrieNode();
-        
+
+    public int[] SumPrefixScores(string[] words)
+    {
+        var root = new TrieNode();
+
         // Step 1: Insert all words into the Trie
-        foreach (string word in words) {
+        foreach (var word in words)
+        {
             Insert(root, word);
         }
-        
+
         // Step 2: Calculate the score for each word
-        int[] result = new int[words.Length];
-        for (int i = 0; i < words.Length; i++) {
+        var result = new int[words.Length];
+        for (var i = 0; i < words.Length; i++)
+        {
             result[i] = GetScore(root, words[i]);
         }
-        
+
         return result;
     }
 
+    public long DividePlayers(int[] skill)
+    {
+        Array.Sort(skill);
 
+        var slen = skill.Length;
+        var temp = skill[0] + skill[slen - 1];
+        long result = 0;
+        for (var i = 0; i < slen / 2; i++)
+        {
+            var a = skill[i] + skill[slen - 1 - i];
+            if (a != temp)
+            {
+                return -1;
+            }
+
+            result += skill[i] * skill[slen - 1 - i];
+            temp = a;
+        }
+
+        return result;
+    }
 }
