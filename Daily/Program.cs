@@ -3,7 +3,6 @@
     public static void Main()
     {
         var sol = new Solution();
-
     }
 
 
