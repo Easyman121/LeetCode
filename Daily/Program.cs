@@ -1,11 +1,9 @@
-﻿using System.Numerics;
-
-public class Solution
+﻿public class Solution
 {
     public static void Main()
     {
         var sol = new Solution();
-        sol.CheckInclusion("adc", "dcda");
+
     }
 
 
@@ -730,29 +728,44 @@ public class Solution
 
     public bool CheckInclusion(string s1, string s2)
     {
-        if (s1.Length > s2.Length) return false;
-        int[] s1count = new int[26];
-        int[] s2count = new int[26];
-        for (int i = 0; i < s1.Length; i++)
+        if (s1.Length > s2.Length)
+        {
+            return false;
+        }
+
+        var s1count = new int[26];
+        var s2count = new int[26];
+        for (var i = 0; i < s1.Length; i++)
         {
             s1count[s1[i] - 'a']++;
             s2count[s2[i] - 'a']++;
         }
-        for (int i = 0; i < s2.Length - s1.Length; i++) {
-            if (matches(s1count, s2count)) return true;
+
+        for (var i = 0; i < s2.Length - s1.Length; i++)
+        {
+            if (matches(s1count, s2count))
+            {
+                return true;
+            }
+
             // Update the window
             s2count[s2[i] - 'a']--;
             s2count[s2[i + s1.Length] - 'a']++;
         }
 
         return matches(s1count, s2count);
-        bool matches(int[] s1Count, int[] s2Count) {
-            for (int i = 0; i < 26; i++) {
-                if (s1Count[i] != s2Count[i]) return false;
+
+        bool matches(int[] s1Count, int[] s2Count)
+        {
+            for (var i = 0; i < 26; i++)
+            {
+                if (s1Count[i] != s2Count[i])
+                {
+                    return false;
+                }
             }
+
             return true;
         }
     }
-
-
 }
