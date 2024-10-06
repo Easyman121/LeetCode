@@ -767,4 +767,31 @@
             return true;
         }
     }
+
+    public bool AreSentencesSimilar(string sentence1, string sentence2)
+    {
+        if (sentence1 == sentence2)
+        {
+            return true;
+        }
+
+        string[] split1 = sentence1.Split(' '), split2 = sentence2.Split(' ');
+
+        int n = split1.Length, m = split2.Length;
+        var min = Math.Min(n, m);
+
+        var prefixLength = 0;
+        while (prefixLength < min && split1[prefixLength] == split2[prefixLength])
+        {
+            prefixLength++;
+        }
+
+        var suffixLength = 0;
+        while (suffixLength < min - prefixLength && split1[n - suffixLength - 1] == split2[m - suffixLength - 1])
+        {
+            suffixLength++;
+        }
+
+        return prefixLength + suffixLength >= n || prefixLength + suffixLength >= m;
+    }
 }
