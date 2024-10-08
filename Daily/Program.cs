@@ -722,10 +722,7 @@ public class Solution
             if (remainder < 0) remainder += k;
             freq[remainder]++;
         }
-    public long DividePlayers(int[] skill)
-    {
-        Array.Sort(skill);
-
+        
         if (freq[0] % 2 != 0) return false;
 
         for (int i = 1; i <= k / 2; i++) {
@@ -737,6 +734,26 @@ public class Solution
         }
 
         return true;
+    }
+    public long DividePlayers(int[] skill)
+    {
+        Array.Sort(skill);
+            var slen = skill.Length;
+        var temp = skill[0] + skill[slen - 1];
+        long result = 0;
+        for (var i = 0; i < slen / 2; i++)
+        {
+            var a = skill[i] + skill[slen - 1 - i];
+            if (a != temp)
+            {
+                return -1;
+            }
+
+            result += skill[i] * skill[slen - 1 - i];
+            temp = a;
+        }
+
+        return result;
     }
     public int[] ArrayRankTransform(int[] arr) {
         if (arr.Length == 0) return new int[]{};
@@ -762,23 +779,7 @@ public class Solution
         }        
         return (open+1)/2;
     }
-        var slen = skill.Length;
-        var temp = skill[0] + skill[slen - 1];
-        long result = 0;
-        for (var i = 0; i < slen / 2; i++)
-        {
-            var a = skill[i] + skill[slen - 1 - i];
-            if (a != temp)
-            {
-                return -1;
-            }
-
-            result += skill[i] * skill[slen - 1 - i];
-            temp = a;
-        }
-
-        return result;
-    }
+        
 
     public bool CheckInclusion(string s1, string s2)
     {

@@ -4,8 +4,7 @@ public class Solution
 {
     public static void Main()
     {
-        Console.WriteLine(FindMaxAverage(new int[] {0, 1,1 ,3,3}, 4));
-        Console.ReadLine();
+
     }
 
     public string MergeAlternately(string word1, string word2)
@@ -480,7 +479,7 @@ public class Solution
     public IList<IList<int>> FindDifference(int[] nums1, int[] nums2) {
         HashSet<int> a = new HashSet<int>(nums1);
         HashSet<int> b = new HashSet<int>(nums2);
-        IList<IList<int>> ints = new List<IList<int>>() { new List<int>, new List<int>};
+        IList<IList<int>> ints = new List<IList<int>>(){new List<int>(), new List<int>()};
 
         for(int i =0; i < nums1.Length; i++)
         {
