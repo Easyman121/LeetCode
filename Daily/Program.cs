@@ -9,8 +9,8 @@ public class Solution
 {
     public static void Main()
     {
-
-        
+        var sol = new Solution();
+        sol.MinLength("ABFCACDB");
     }
 
 
@@ -594,9 +594,10 @@ public class Solution
         return result;
     }
 
-    public int MinExtraChar(string s, string[] dictionary) {
+    public int MinExtraChar(string s, string[] dictionary)
+    {
         var sentenceLength = s.Length;
-        var dp = new List<int>() {0};
+        var dp = new List<int>() { 0 };
         for (var i = 0; i < sentenceLength; ++i)
         {
             var match = dp[i];
@@ -606,84 +607,107 @@ public class Solution
                 var offset = i - wordLength + 1;
                 var maxLength = Math.Min(wordLength, sentenceLength - offset);
 
-                if ( offset >= 0&& s.Substring(offset, maxLength) == word ) // if match
+                if (offset >= 0 && s.Substring(offset, maxLength) == word) // if match
                 {
                     match = Math.Max(match, dp[offset] + wordLength);
                 }
             }
+
             dp.Add(match);
         }
 
         return sentenceLength - dp[^1];
     }
 
-   
 
-    public int LongestCommonPrefix(int[] arr1, int[] arr2) {
-       
+    public int LongestCommonPrefix(int[] arr1, int[] arr2)
+    {
         HashSet<int> prefixes = [];
-for (var i = 0; i < arr1.Length; i++){
-    var num = arr1[i];
-    while (num > 0){
-        prefixes.Add(num);
-        num/=10;
-    }
-}
-var max = 0;
-for (var i =0 ; i < arr2.Length; i++){
-    var num = arr2[i];
-    while (num > 0 && !prefixes.Contains(num)){
-        num/=10;
-    }
-    if (prefixes.Contains(num)) max = int.Max(max, num.ToString().Length);
-}
-return max;
+        for (var i = 0; i < arr1.Length; i++)
+        {
+            var num = arr1[i];
+            while (num > 0)
+            {
+                prefixes.Add(num);
+                num /= 10;
+            }
+        }
+
+        var max = 0;
+        for (var i = 0; i < arr2.Length; i++)
+        {
+            var num = arr2[i];
+            while (num > 0 && !prefixes.Contains(num))
+            {
+                num /= 10;
+            }
+
+            if (prefixes.Contains(num))
+            {
+                max = int.Max(max, num.ToString().Length);
+            }
+        }
+
+        return max;
     }
 
-    public class TrieNode {
+    public class TrieNode
+    {
         public Dictionary<char, TrieNode> Children;
         public int Count; // keeps track of how many words share this prefix
-        
-        public TrieNode() {
+
+        public TrieNode()
+        {
             Children = new Dictionary<char, TrieNode>();
             Count = 0;
         }
     }
 
-    private void Insert(TrieNode root, string word) {
-        TrieNode currentNode = root;
-        foreach (char c in word) {
-            if (!currentNode.Children.ContainsKey(c)) {
+    private void Insert(TrieNode root, string word)
+    {
+        var currentNode = root;
+        foreach (var c in word)
+        {
+            if (!currentNode.Children.ContainsKey(c))
+            {
                 currentNode.Children[c] = new TrieNode();
             }
+
             currentNode = currentNode.Children[c];
-            currentNode.Count++;  // increase the prefix count
+            currentNode.Count++; // increase the prefix count
         }
     }
 
-    private int GetScore(TrieNode root, string word) {
-        TrieNode currentNode = root;
-        int score = 0;
-        foreach (char c in word) {
+    private int GetScore(TrieNode root, string word)
+    {
+        var currentNode = root;
+        var score = 0;
+        foreach (var c in word)
+        {
             currentNode = currentNode.Children[c];
             score += currentNode.Count;
         }
+
         return score;
     }
-    public int[] SumPrefixScores(string[] words) {
-        TrieNode root = new TrieNode();
-        
+
+    public int[] SumPrefixScores(string[] words)
+    {
+        var root = new TrieNode();
+
         // Step 1: Insert all words into the Trie
-        foreach (string word in words) {
+        foreach (var word in words)
+        {
             Insert(root, word);
         }
-        
+
         // Step 2: Calculate the score for each word
-        int[] result = new int[words.Length];
-        for (int i = 0; i < words.Length; i++) {
+        var result = new int[words.Length];
+        for (var i = 0; i < words.Length; i++)
+        {
             result[i] = GetScore(root, words[i]);
         }
-        
+
         return result;
     }
 
@@ -698,6 +722,9 @@ return max;
             if (remainder < 0) remainder += k;
             freq[remainder]++;
         }
+    public long DividePlayers(int[] skill)
+    {
+        Array.Sort(skill);
 
         if (freq[0] % 2 != 0) return false;
 
@@ -734,5 +761,114 @@ return max;
           else if(open>0) open--;
         }        
         return (open+1)/2;
+    }
+        var slen = skill.Length;
+        var temp = skill[0] + skill[slen - 1];
+        long result = 0;
+        for (var i = 0; i < slen / 2; i++)
+        {
+            var a = skill[i] + skill[slen - 1 - i];
+            if (a != temp)
+            {
+                return -1;
+            }
+
+            result += skill[i] * skill[slen - 1 - i];
+            temp = a;
+        }
+
+        return result;
+    }
+
+    public bool CheckInclusion(string s1, string s2)
+    {
+        if (s1.Length > s2.Length)
+        {
+            return false;
+        }
+
+        var s1count = new int[26];
+        var s2count = new int[26];
+        for (var i = 0; i < s1.Length; i++)
+        {
+            s1count[s1[i] - 'a']++;
+            s2count[s2[i] - 'a']++;
+        }
+
+        for (var i = 0; i < s2.Length - s1.Length; i++)
+        {
+            if (matches(s1count, s2count))
+            {
+                return true;
+            }
+
+            // Update the window
+            s2count[s2[i] - 'a']--;
+            s2count[s2[i + s1.Length] - 'a']++;
+        }
+
+        return matches(s1count, s2count);
+
+        bool matches(int[] s1Count, int[] s2Count)
+        {
+            for (var i = 0; i < 26; i++)
+            {
+                if (s1Count[i] != s2Count[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    public bool AreSentencesSimilar(string sentence1, string sentence2)
+    {
+        if (sentence1 == sentence2)
+        {
+            return true;
+        }
+
+        string[] split1 = sentence1.Split(' '), split2 = sentence2.Split(' ');
+
+        int n = split1.Length, m = split2.Length;
+        var min = Math.Min(n, m);
+
+        var prefixLength = 0;
+        while (prefixLength < min && split1[prefixLength] == split2[prefixLength])
+        {
+            prefixLength++;
+        }
+
+        var suffixLength = 0;
+        while (suffixLength < min - prefixLength && split1[n - suffixLength - 1] == split2[m - suffixLength - 1])
+        {
+            suffixLength++;
+        }
+
+        return prefixLength + suffixLength >= n || prefixLength + suffixLength >= m;
+    }
+
+    public int MinLength(string s)
+    {
+        var stack = new Stack<char>();
+
+        foreach (var c in s)
+        {
+            if (stack.Count > 0)
+            {
+                var top = stack.Peek();
+                if ((top == 'A' && c == 'B') || (top == 'C' && c == 'D'))
+                {
+                    stack.Pop();
+                    continue;
+                }
+            }
+
+            stack.Push(c);
+        }
+
+        return stack.Count;
     }
 }
