@@ -1,4 +1,6 @@
 ﻿using Daily;
+using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -685,5 +687,52 @@ return max;
         return result;
     }
 
+    public bool CanArrange(int[] arr, int k) {
+        int size = arr.Length;
+        if (size % 2 != 0) return false;
 
+        int[] freq = new int[k];
+
+        foreach (int num in arr) {
+            int remainder = num % k;
+            if (remainder < 0) remainder += k;
+            freq[remainder]++;
+        }
+
+        if (freq[0] % 2 != 0) return false;
+
+        for (int i = 1; i <= k / 2; i++) {
+            if (i == k - i) {
+                if (freq[i] % 2 != 0) return false;
+            } else {
+                if (freq[i] != freq[k - i]) return false;
+            }
+        }
+
+        return true;
+    }
+    public int[] ArrayRankTransform(int[] arr) {
+        if (arr.Length == 0) return new int[]{};
+        int[] el = arr.Distinct().OrderBy(x => x).ToArray();
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        for (int i = 0; i < el.Length; i++)
+        {
+            dict[el[i]] = i + 1;
+        }
+        for (int i =0; i < arr.Length; i++)
+        {
+            arr[i] = dict[arr[i]];
+        }
+        return arr;
+    }
+
+    public int MinSwaps(string s) {
+        int open = 0; 
+        for(int i=0; i<s.Length; i++)
+        {
+          if(s[i]=='[') open++;
+          else if(open>0) open--;
+        }        
+        return (open+1)/2;
+    }
 }
