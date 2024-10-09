@@ -1,11 +1,4 @@
-﻿using Daily;
-using System.Collections.Immutable;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
-public class Solution
+﻿public class Solution
 {
     public static void Main()
     {
@@ -711,34 +704,57 @@ public class Solution
         return result;
     }
 
-    public bool CanArrange(int[] arr, int k) {
-        int size = arr.Length;
-        if (size % 2 != 0) return false;
+    public bool CanArrange(int[] arr, int k)
+    {
+        var size = arr.Length;
+        if (size % 2 != 0)
+        {
+            return false;
+        }
 
-        int[] freq = new int[k];
+        var freq = new int[k];
 
-        foreach (int num in arr) {
-            int remainder = num % k;
-            if (remainder < 0) remainder += k;
+        foreach (var num in arr)
+        {
+            var remainder = num % k;
+            if (remainder < 0)
+            {
+                remainder += k;
+            }
+
             freq[remainder]++;
         }
-        
-        if (freq[0] % 2 != 0) return false;
 
-        for (int i = 1; i <= k / 2; i++) {
-            if (i == k - i) {
-                if (freq[i] % 2 != 0) return false;
-            } else {
-                if (freq[i] != freq[k - i]) return false;
+        if (freq[0] % 2 != 0)
+        {
+            return false;
+        }
+
+        for (var i = 1; i <= k / 2; i++)
+        {
+            if (i == k - i)
+            {
+                if (freq[i] % 2 != 0)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (freq[i] != freq[k - i])
+                {
+                    return false;
+                }
             }
         }
 
         return true;
     }
+
     public long DividePlayers(int[] skill)
     {
         Array.Sort(skill);
-            var slen = skill.Length;
+        var slen = skill.Length;
         var temp = skill[0] + skill[slen - 1];
         long result = 0;
         for (var i = 0; i < slen / 2; i++)
@@ -755,31 +771,47 @@ public class Solution
 
         return result;
     }
-    public int[] ArrayRankTransform(int[] arr) {
-        if (arr.Length == 0) return new int[]{};
-        int[] el = arr.Distinct().OrderBy(x => x).ToArray();
-        Dictionary<int, int> dict = new Dictionary<int, int>();
-        for (int i = 0; i < el.Length; i++)
+
+    public int[] ArrayRankTransform(int[] arr)
+    {
+        if (arr.Length == 0)
+        {
+            return new int[] { };
+        }
+
+        var el = arr.Distinct().OrderBy(x => x).ToArray();
+        var dict = new Dictionary<int, int>();
+        for (var i = 0; i < el.Length; i++)
         {
             dict[el[i]] = i + 1;
         }
-        for (int i =0; i < arr.Length; i++)
+
+        for (var i = 0; i < arr.Length; i++)
         {
             arr[i] = dict[arr[i]];
         }
+
         return arr;
     }
 
-    public int MinSwaps(string s) {
-        int open = 0; 
-        for(int i=0; i<s.Length; i++)
+    public int MinSwaps(string s)
+    {
+        var open = 0;
+        for (var i = 0; i < s.Length; i++)
         {
-          if(s[i]=='[') open++;
-          else if(open>0) open--;
-        }        
-        return (open+1)/2;
+            if (s[i] == '[')
+            {
+                open++;
+            }
+            else if (open > 0)
+            {
+                open--;
+            }
+        }
+
+        return (open + 1) / 2;
     }
-        
+
 
     public bool CheckInclusion(string s1, string s2)
     {
@@ -871,5 +903,30 @@ public class Solution
         }
 
         return stack.Count;
+    }
+
+    public int MinAddToMakeValid(string s)
+    {
+        int l = 0, miss = 0;
+        foreach (var c in s)
+        {
+            if (c == '(')
+            {
+                l++;
+            }
+            else
+            {
+                if (l > 0)
+                {
+                    l--;
+                }
+                else
+                {
+                    miss++;
+                }
+            }
+        }
+
+        return l + miss;
     }
 }
