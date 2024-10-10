@@ -929,4 +929,23 @@
 
         return l + miss;
     }
+
+    public int MaxWidthRamp(int[] nums) {
+        int n = nums.Length;
+        Stack<int> stack = new Stack<int>();
+        for (int i =0; i <n;i++){
+            if (stack.Count == 0 || nums[stack.Peek()] > nums[i]){
+                stack.Push(i);
+            }
+        }
+
+        int width = 0;
+        for (int i = n -1; i > 0; i--){
+            if (stack.Count == 0) break;
+            while (stack.Count > 0 && nums[stack.Peek()] <= nums[i]){
+                width = Math.Max(width, i-stack.Pop());
+            }
+        }
+        return width;
+    }
 }
