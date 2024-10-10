@@ -542,4 +542,20 @@ public class Solution
         if (!Check(freq2, freq1)) return false;
         return freq1.Values.Order().SequenceEqual(freq2.Values.Order());
      }
+
+    public int EqualPairs(int[][] grid) {
+        Dictionary<string, int> hashes = grid
+            .Select(row => string.Join("|", row))
+            .GroupBy(hash => hash)
+            .ToDictionary(h => h.Key, h => h.Count());
+        
+        int countPairs = 0;
+        for (int colIX = 0; colIX < grid[0].Length; colIX++)
+        {
+            string strForHash = string.Join("|", grid.Select(row => row[colIX]));
+            countPairs += hashes.GetValueOrDefault(strForHash);
+        }
+        
+        return countPairs;
+    }
 }
