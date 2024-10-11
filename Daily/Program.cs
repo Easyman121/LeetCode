@@ -948,4 +948,40 @@
         }
         return width;
     }
+
+    public int SmallestChair(int[][] times, int targetFriend) {
+        var targetTime = times[targetFriend];
+
+        Array.Sort(times, (a, b) => a[0].CompareTo(b[0]));
+
+        var chairsQueue = new PriorityQueue<int,int>(); 
+        var freeChairs = new SortedSet<int>();
+        
+        var lastUnoccupiedChair = 0;
+        var chair = -1;
+
+        for (int i = 0; i < times.Length; i++)
+        {
+            var leaveTime = -1;
+
+            while (chairsQueue.TryPeek(out chair, out leaveTime) && leaveTime <= times[i][0])
+                freeChairs.Add(chairsQueue.Dequeue());
+
+            if (freeChairs.Count > 0)
+            {
+                chair = freeChairs.Min;
+                freeChairs.Remove(chair); 
+            }
+            else
+                chair = lastUnoccupiedChair++;
+
+            if (times[i] == targetTime)
+                break;
+
+            if (times[i][1] <= targetTime[0])
+                chairsQueue.Enqueue(chair, times[i][1]);
+        }
+        
+        return chair;
+    }
 }
