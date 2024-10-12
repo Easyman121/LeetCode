@@ -984,4 +984,22 @@
         
         return chair;
     }
+
+    public int MinGroups(int[][] intervals) {
+        int max = intervals.Max(x => x[1]);
+        
+        int[] line = new int[max+2];
+        foreach(var i in intervals){
+            line[i[0]]++;
+            line[i[1]+1]--;
+        }
+
+        int overlap = 0;
+        max = 0;
+        for(int i =0; i<line.Length; i++){
+            overlap+= line[i];
+            max = Math.Max(max, overlap);
+        }
+        return max;
+    }
 }
