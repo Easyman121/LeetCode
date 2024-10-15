@@ -930,78 +930,102 @@
         return l + miss;
     }
 
-    public int MaxWidthRamp(int[] nums) {
-        int n = nums.Length;
-        Stack<int> stack = new Stack<int>();
-        for (int i =0; i <n;i++){
-            if (stack.Count == 0 || nums[stack.Peek()] > nums[i]){
+    public int MaxWidthRamp(int[] nums)
+    {
+        var n = nums.Length;
+        var stack = new Stack<int>();
+        for (var i = 0; i < n; i++)
+        {
+            if (stack.Count == 0 || nums[stack.Peek()] > nums[i])
+            {
                 stack.Push(i);
             }
         }
 
-        int width = 0;
-        for (int i = n -1; i > 0; i--){
-            if (stack.Count == 0) break;
-            while (stack.Count > 0 && nums[stack.Peek()] <= nums[i]){
-                width = Math.Max(width, i-stack.Pop());
+        var width = 0;
+        for (var i = n - 1; i > 0; i--)
+        {
+            if (stack.Count == 0)
+            {
+                break;
+            }
+
+            while (stack.Count > 0 && nums[stack.Peek()] <= nums[i])
+            {
+                width = Math.Max(width, i - stack.Pop());
             }
         }
+
         return width;
     }
 
-    public int SmallestChair(int[][] times, int targetFriend) {
+    public int SmallestChair(int[][] times, int targetFriend)
+    {
         var targetTime = times[targetFriend];
 
         Array.Sort(times, (a, b) => a[0].CompareTo(b[0]));
 
-        var chairsQueue = new PriorityQueue<int,int>(); 
+        var chairsQueue = new PriorityQueue<int, int>();
         var freeChairs = new SortedSet<int>();
-        
+
         var lastUnoccupiedChair = 0;
         var chair = -1;
 
-        for (int i = 0; i < times.Length; i++)
+        for (var i = 0; i < times.Length; i++)
         {
             var leaveTime = -1;
 
             while (chairsQueue.TryPeek(out chair, out leaveTime) && leaveTime <= times[i][0])
+            {
                 freeChairs.Add(chairsQueue.Dequeue());
+            }
 
             if (freeChairs.Count > 0)
             {
                 chair = freeChairs.Min;
-                freeChairs.Remove(chair); 
+                freeChairs.Remove(chair);
             }
             else
+            {
                 chair = lastUnoccupiedChair++;
+            }
 
             if (times[i] == targetTime)
+            {
                 break;
+            }
 
             if (times[i][1] <= targetTime[0])
+            {
                 chairsQueue.Enqueue(chair, times[i][1]);
+            }
         }
-        
+
         return chair;
     }
 
-    public int MinGroups(int[][] intervals) {
-        int max = intervals.Max(x => x[1]);
-        
-        int[] line = new int[max+2];
-        foreach(var i in intervals){
+    public int MinGroups(int[][] intervals)
+    {
+        var max = intervals.Max(x => x[1]);
+
+        var line = new int[max + 2];
+        foreach (var i in intervals)
+        {
             line[i[0]]++;
-            line[i[1]+1]--;
+            line[i[1] + 1]--;
         }
 
-        int overlap = 0;
+        var overlap = 0;
         max = 0;
-        for(int i =0; i<line.Length; i++){
-            overlap+= line[i];
+        for (var i = 0; i < line.Length; i++)
+        {
+            overlap += line[i];
             max = Math.Max(max, overlap);
         }
+
         return max;
     }
+
 
     public long MaxKelements(int[] nums, int k) {
 
@@ -1032,5 +1056,60 @@
             }
         }
         return swap;
+    }
+    public int[] SmallestRange(IList<IList<int>> nums)
+    {
+        var elements = new List<(int value, int listIndex)>();
+
+        for (var i = 0; i < nums.Count; i++)
+        {
+            foreach (var num in nums[i])
+            {
+                elements.Add((num, i));
+            }
+        }
+
+        elements.Sort((a, b) => a.value.CompareTo(b.value));
+
+        var count = new int[nums.Count];
+        var totalCovered = 0;
+        var left = 0;
+        var minRange = int.MaxValue;
+        int start = 0, end = 0;
+
+        for (var right = 0; right < elements.Count; right++)
+        {
+            var listIndex = elements[right].listIndex;
+            count[listIndex]++;
+
+            if (count[listIndex] == 1)
+            {
+                totalCovered++;
+            }
+
+            while (totalCovered == nums.Count)
+            {
+                var currentRange = elements[right].value - elements[left].value;
+
+                if (currentRange < minRange)
+                {
+                    minRange = currentRange;
+                    start = elements[left].value;
+                    end = elements[right].value;
+                }
+
+                var leftListIndex = elements[left].listIndex;
+                count[leftListIndex]--;
+
+                if (count[leftListIndex] == 0)
+                {
+                    totalCovered--;
+                }
+
+                left++;
+            }
+        }
+
+        return new int[] { start, end };
     }
 }
