@@ -1020,4 +1020,17 @@
         }
         return score;
     }
+
+    public long MinimumSteps(string s) {
+        int pos = 0;
+        long swap = 0;
+        for (int i =0; i < s.Length; i++){
+            if (s[i] == '0'){
+                swap += i - pos;
+
+                pos++;
+            }
+        }
+        return swap;
+    }
 }
