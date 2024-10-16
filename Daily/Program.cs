@@ -1112,4 +1112,33 @@
 
         return new int[] { start, end };
     }
+
+    public string LongestDiverseString(int a, int b, int c) {
+        int maxLength = a + b + c, i = 0;
+        List<char> chars = new List<char>();
+        int currA, currB, currC;
+        currA = currB = currC = 0;
+        while (true){
+            if (currA != 2 && a>= b && a >= c || a > 0 && (currB == 2 || currC == 2)){
+                chars.Add('a');
+                a--;
+                currA++;
+                currB = currC = 0;
+            }
+            else if (currB != 2 && b>= c && b >= a || b > 0 && (currA == 2 || currC == 2)){
+                chars.Add('b');
+                b--;
+                currB++;
+                currA = currC = 0;
+            }
+            else if (currC != 2 && c>= a && c >= b || c > 0 && (currB == 2 || currA == 2)){
+                chars.Add('c');
+                c--;
+                currC++;
+                currA = currB = 0;
+            }
+            else break;
+        }
+        return string.Join("", chars);
+    }
 }
