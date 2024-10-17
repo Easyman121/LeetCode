@@ -1141,4 +1141,18 @@
         }
         return string.Join("", chars);
     }
+
+     public int MaximumSwap(int num) {
+        string s = num.ToString(); char[] st = s.ToCharArray();
+        int swapcount = num, n = s.Length;
+        for (int i =0; i <n; i++){
+            for (int j = i+1; j < n; j++){
+                (st[i], st[j]) = (st[j], st[i]);
+                int x = int.Parse(st);
+                swapcount = Math.Max(swapcount, x);
+                st = s.ToCharArray();
+            }
+        }
+        return swapcount;
+    }
 }
