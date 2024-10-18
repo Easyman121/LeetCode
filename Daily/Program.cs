@@ -1027,36 +1027,43 @@
     }
 
 
-    public long MaxKelements(int[] nums, int k) {
+    public long MaxKelements(int[] nums, int k)
+    {
+        var maxHeap = new PriorityQueue<int, int>();
+        foreach (var num in nums)
+        {
+            maxHeap.Enqueue(num, -num);
+        }
 
-        PriorityQueue<int, int> maxHeap = new PriorityQueue<int, int>();
-        foreach(int num in nums)
+        long score = 0;
+        for (var i = 0; i < k; i++)
         {
-            maxHeap.Enqueue(num , -num);
-        }
-        long score = 0 ;
-        for(int i = 0 ; i < k ; i++)
-        {
-            int largest = maxHeap.Dequeue();
+            var largest = maxHeap.Dequeue();
             score += largest;
-            int reduced = (int)Math.Ceiling(largest / 3D);
-            maxHeap.Enqueue(reduced , -reduced);
+            var reduced = (int)Math.Ceiling(largest / 3D);
+            maxHeap.Enqueue(reduced, -reduced);
         }
+
         return score;
     }
 
-    public long MinimumSteps(string s) {
-        int pos = 0;
+    public long MinimumSteps(string s)
+    {
+        var pos = 0;
         long swap = 0;
-        for (int i =0; i < s.Length; i++){
-            if (s[i] == '0'){
+        for (var i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '0')
+            {
                 swap += i - pos;
 
                 pos++;
             }
         }
+
         return swap;
     }
+
     public int[] SmallestRange(IList<IList<int>> nums)
     {
         var elements = new List<(int value, int listIndex)>();
@@ -1113,46 +1120,89 @@
         return new int[] { start, end };
     }
 
-    public string LongestDiverseString(int a, int b, int c) {
+    public string LongestDiverseString(int a, int b, int c)
+    {
         int maxLength = a + b + c, i = 0;
-        List<char> chars = new List<char>();
+        var chars = new List<char>();
         int currA, currB, currC;
         currA = currB = currC = 0;
-        while (true){
-            if (currA != 2 && a>= b && a >= c || a > 0 && (currB == 2 || currC == 2)){
+        while (true)
+        {
+            if ((currA != 2 && a >= b && a >= c) || (a > 0 && (currB == 2 || currC == 2)))
+            {
                 chars.Add('a');
                 a--;
                 currA++;
                 currB = currC = 0;
             }
-            else if (currB != 2 && b>= c && b >= a || b > 0 && (currA == 2 || currC == 2)){
+            else if ((currB != 2 && b >= c && b >= a) || (b > 0 && (currA == 2 || currC == 2)))
+            {
                 chars.Add('b');
                 b--;
                 currB++;
                 currA = currC = 0;
             }
-            else if (currC != 2 && c>= a && c >= b || c > 0 && (currB == 2 || currA == 2)){
+            else if ((currC != 2 && c >= a && c >= b) || (c > 0 && (currB == 2 || currA == 2)))
+            {
                 chars.Add('c');
                 c--;
                 currC++;
                 currA = currB = 0;
             }
-            else break;
+            else
+            {
+                break;
+            }
         }
+
         return string.Join("", chars);
     }
 
-     public int MaximumSwap(int num) {
-        string s = num.ToString(); char[] st = s.ToCharArray();
+    public int MaximumSwap(int num)
+    {
+        var s = num.ToString();
+        var st = s.ToCharArray();
         int swapcount = num, n = s.Length;
-        for (int i =0; i <n; i++){
-            for (int j = i+1; j < n; j++){
+        for (var i = 0; i < n; i++)
+        {
+            for (var j = i + 1; j < n; j++)
+            {
                 (st[i], st[j]) = (st[j], st[i]);
-                int x = int.Parse(st);
+                var x = int.Parse(st);
                 swapcount = Math.Max(swapcount, x);
                 st = s.ToCharArray();
             }
         }
+
         return swapcount;
+    }
+
+    public int CountMaxOrSubsets(int[] nums)
+    {
+        var max = nums[0];
+        for (var i = 1; i < nums.Length; i++)
+        {
+            max = max | nums[i];
+        }
+
+        var count = 0;
+        for (var i = 1; i < 1 << nums.Length; i++)
+        {
+            var current = 0;
+            for (var j = 0; j < nums.Length; j++)
+            {
+                if ((i & (1 << j)) != 0)
+                {
+                    current |= nums[j];
+                }
+            }
+
+            if (current == max)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
