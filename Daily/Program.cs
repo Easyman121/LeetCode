@@ -3,7 +3,7 @@
     public static void Main()
     {
         var sol = new Solution();
-        sol.MinLength("ABFCACDB");
+        sol.FindKthBit(4, 11);
     }
 
 
@@ -1204,5 +1204,42 @@
         }
 
         return count;
+    }
+
+    public char FindKthBit(int n, int k)
+    {
+        string invert(string a)
+        {
+            var b = a.ToCharArray();
+            for (var i = 0; i < b.Length; i++)
+            {
+                if (b[i] == '1')
+                {
+                    b[i] = '0';
+                }
+                else
+                {
+                    b[i] = '1';
+                }
+            }
+
+            return new string(b);
+        }
+
+        string reverse(string a)
+        {
+            var charArray = a.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
+
+        var iteration = "0";
+
+        for (var i = 1; i < n; i++)
+        {
+            iteration = iteration + "1" + reverse(invert(iteration));
+        }
+
+        return iteration[k - 1];
     }
 }
