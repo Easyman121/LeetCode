@@ -1242,4 +1242,76 @@
 
         return iteration[k - 1];
     }
+
+    public bool ParseBoolExpr(string expression)
+    {
+        bool Parse(string expression, bool and)
+        {
+            int n = expression.Length, j = 0, par = 0;
+            var sub = "";
+            while (j < n)
+            {
+                if (expression[j] == ',' && par == 0)
+                {
+                    var temp = ParseBoolExpr(sub);
+                    if (and)
+                    {
+                        if (!temp)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (temp)
+                        {
+                            return true;
+                        }
+                    }
+
+                    sub = "";
+                    j++;
+                    continue;
+                }
+
+                if (expression[j] == '(')
+                {
+                    par++;
+                }
+                else if (expression[j] == ')')
+                {
+                    par--;
+                }
+
+                sub += expression[j++];
+            }
+
+            return ParseBoolExpr(sub);
+        }
+
+
+        var n = expression.Length;
+        var ch = expression[0];
+        if (n == 1)
+        {
+            return ch == 't';
+        }
+
+        if (ch == '!')
+        {
+            return !ParseBoolExpr(expression.Substring(2, n - 3));
+        }
+
+        if (ch == '&')
+        {
+            return Parse(expression.Substring(2, n - 3), true);
+        }
+
+        if (ch == '|')
+        {
+            return Parse(expression.Substring(2, n - 3), false);
+        }
+
+        return false;
+    }
 }
