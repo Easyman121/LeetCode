@@ -1144,15 +1144,37 @@
 
      public int MaximumSwap(int num) {
         string s = num.ToString(); char[] st = s.ToCharArray();
-        int swapcount = num, n = s.Length;
+        int res = num, n = s.Length;
         for (int i =0; i <n; i++){
             for (int j = i+1; j < n; j++){
                 (st[i], st[j]) = (st[j], st[i]);
                 int x = int.Parse(st);
-                swapcount = Math.Max(swapcount, x);
+                res = Math.Max(res, x);
                 st = s.ToCharArray();
             }
         }
-        return swapcount;
+        return res;
+    }
+
+    public int MaxUniqueSplit(string s) {
+        int DFS(string s, int start, HashSet<string> unique){
+        if (start == s.Length) return 0; 
+        
+        int max = 0;
+        for (int i = start + 1; i <= s.Length; i++) {
+            string curr = s.Substring(start, i - start);
+            
+            if (!unique.Contains(curr)) {
+                unique.Add(curr);  
+                max = Math.Max(max, 1 + DFS(s, i, unique));
+                unique.Remove(curr);  
+            }
+        }
+
+        return max;
+        }
+
+        var unique = new HashSet<string>();
+        return DFS(s, 0, unique);
     }
 }
