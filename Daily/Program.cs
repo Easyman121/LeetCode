@@ -2,8 +2,9 @@
 {
     public static void Main()
     {
-        var sol = new Solution();
-        sol.FindKthBit(4, 11);
+        List<int> ints = new List<int>();
+        ints[0] += 4;
+        System.Console.WriteLine(ints[3]);
     }
 
 
@@ -1350,5 +1351,74 @@
         }
 
         return false;
+    }
+
+
+    public long KthLargestLevelSum(TreeNode root, int k) {
+        /*
+        List<int> sums = new List<int>();
+        void Walk(int level, TreeNode node){
+            if (sums.Count <= level){
+                sums.Add(0);
+            }
+            sums[level] += node.val;
+            if (node.left != null) Walk(level+1, node.left);
+            if (node.right != null) Walk(level+1, node.right);
+            
+        }
+
+        Walk(0, root);
+        if (sums.Count < k) return -1;
+        else {
+            sums.OrderByDescending(x => x);
+            return sums[k-1];
+            
+        }*/
+        long returned = 0;
+        var maxHeap = new PriorityQueue<long, long>(Comparer<long>.Create((x, y) => y.CompareTo(x)));
+        if (root == null) return -1; 
+
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root); 
+
+        while (queue.Count > 0)
+        {
+            long levelSize = queue.Count; 
+            long currSum = 0; 
+
+            for (int i = 0; i < levelSize; i++)
+            {
+                TreeNode currNode = queue.Dequeue(); 
+                currSum += currNode.val; 
+
+                if (currNode.left != null)
+                {
+                    queue.Enqueue(currNode.left);
+                }
+
+                
+                if (currNode.right != null)
+                {
+                    queue.Enqueue(currNode.right);
+                }
+            }
+
+            
+            maxHeap.Enqueue(currSum,currSum);
+        }
+
+        for (int i = 0; i < k; i++)
+        {
+            if (maxHeap.Count != 0) 
+            {
+                returned = maxHeap.Dequeue();
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        return returned;
     }
 }
