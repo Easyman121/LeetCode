@@ -1421,4 +1421,42 @@
 
         return returned;
     }
+
+    
+
+    public TreeNode ReplaceValueInTree(TreeNode root) {
+        List<int> depthSum = new List<int>();
+        void Fin(TreeNode root, int val, int d) {
+        if (root == null) return; 
+
+        root.val = val;
+
+        int c = d + 1 < depthSum.Count ? depthSum[d + 1] : 0;
+
+        c -= (root.left != null ? root.left.val : 0);
+        c -= (root.right != null ? root.right.val : 0);
+
+        if (root.left != null) Fin(root.left, c, d + 1);
+        if (root.right != null) Fin(root.right, c, d + 1);
+        }
+
+        void Walk(TreeNode root, int d) {
+        if (root == null) return; 
+
+        if (d >= depthSum.Count) {
+            depthSum.Add(root.val);
+        }
+        else {
+            depthSum[d] += root.val;
+        }
+        Walk(root.left, d + 1);
+        Walk(root.right, d + 1);
+        }
+
+        Walk(root, 0);
+        Fin(root, 0, 0);
+        return root;
+    }
+    
+ 
 }
