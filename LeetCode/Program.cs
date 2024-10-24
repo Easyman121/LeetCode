@@ -558,4 +558,44 @@ public class Solution
         
         return countPairs;
     }
+
+    public string RemoveStars(string s) {
+        Stack<char> stack = new();
+        for (int i =0; i < s.Length; i++){
+            if (s[i] != '*'){
+                stack.Push(s[i]);
+            }
+            else{
+                stack.Pop();
+            }
+        }
+
+
+        return new string(stack.Reverse().ToArray());
+    }
+
+    public int[] AsteroidCollision(int[] asteroids) {
+        Stack<int> stack = new();
+        for(int i =0; i < asteroids.Length; i++){
+            if (stack.Count == 0) {
+                stack.Push(asteroids[i]);
+                continue;
+            }
+            bool te = false;
+            while (asteroids[i] * stack.Peek() < 0 || stack.Count != 0){
+                if (asteroids[i] + stack.Peek() == 0){
+                    stack.Pop();
+                    te = true;
+                    break;
+                }
+                else if (asteroids[i] + stack.Peek() < 0){
+                    stack.Pop();
+                    
+                }
+            }
+            if (te) continue;
+            stack.Push(asteroids[i]);
+        }
+        return stack.ToArray();
+    }
 }
