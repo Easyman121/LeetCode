@@ -1465,5 +1465,20 @@
         bool flip = FlipEquiv(root1.left, root2.right) && FlipEquiv(root1.right, root2.left);
         return noFlip || flip;
     }
+
+    public IList<string> RemoveSubfolders(string[] folder) {
+        if (folder.Length <= 1) return folder.ToList(); 
+        IList<string> list = new List<string>();
+        folder = folder.OrderBy(x => x).ToArray();
+        
+        list.Add(folder[0]);
+        for(int i =1; i < folder.Length; i++){
+            string lastFolder = list[list.Count - 1] + "/";
+              if (!folder[i].StartsWith(lastFolder)) {
+                list.Add(folder[i]);
+            }
+        } 
+        return list;
+    }
  
 }
