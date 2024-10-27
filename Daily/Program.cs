@@ -2,9 +2,9 @@
 {
     public static void Main()
     {
-        List<int> ints = new List<int>();
+        var ints = new List<int>();
         ints[0] += 4;
-        System.Console.WriteLine(ints[3]);
+        Console.WriteLine(ints[3]);
     }
 
 
@@ -1159,36 +1159,48 @@
         return string.Join("", chars);
     }
 
-     public int MaximumSwap(int num) {
-        string s = num.ToString(); char[] st = s.ToCharArray();
+    public int MaximumSwap(int num)
+    {
+        var s = num.ToString();
+        var st = s.ToCharArray();
         int res = num, n = s.Length;
-        for (int i =0; i <n; i++){
-            for (int j = i+1; j < n; j++){
+        for (var i = 0; i < n; i++)
+        {
+            for (var j = i + 1; j < n; j++)
+            {
                 (st[i], st[j]) = (st[j], st[i]);
-                int x = int.Parse(st);
+                var x = int.Parse(st);
                 res = Math.Max(res, x);
                 st = s.ToCharArray();
             }
         }
+
         return res;
     }
 
-    public int MaxUniqueSplit(string s) {
-        int DFS(string s, int start, HashSet<string> unique){
-        if (start == s.Length) return 0; 
-        
-        int max = 0;
-        for (int i = start + 1; i <= s.Length; i++) {
-            string curr = s.Substring(start, i - start);
-            
-            if (!unique.Contains(curr)) {
-                unique.Add(curr);  
-                max = Math.Max(max, 1 + DFS(s, i, unique));
-                unique.Remove(curr);  
+    public int MaxUniqueSplit(string s)
+    {
+        int DFS(string s, int start, HashSet<string> unique)
+        {
+            if (start == s.Length)
+            {
+                return 0;
             }
-        }
 
-        return max;
+            var max = 0;
+            for (var i = start + 1; i <= s.Length; i++)
+            {
+                var curr = s.Substring(start, i - start);
+
+                if (!unique.Contains(curr))
+                {
+                    unique.Add(curr);
+                    max = Math.Max(max, 1 + DFS(s, i, unique));
+                    unique.Remove(curr);
+                }
+            }
+
+            return max;
         }
 
         var unique = new HashSet<string>();
@@ -1212,7 +1224,6 @@
         }
 
         return swapcount;
-
     }
 
     public int CountMaxOrSubsets(int[] nums)
@@ -1354,7 +1365,8 @@
     }
 
 
-    public long KthLargestLevelSum(TreeNode root, int k) {
+    public long KthLargestLevelSum(TreeNode root, int k)
+    {
         /*
         List<int> sums = new List<int>();
         void Walk(int level, TreeNode node){
@@ -1364,7 +1376,7 @@
             sums[level] += node.val;
             if (node.left != null) Walk(level+1, node.left);
             if (node.right != null) Walk(level+1, node.right);
-            
+
         }
 
         Walk(0, root);
@@ -1372,44 +1384,47 @@
         else {
             sums.OrderByDescending(x => x);
             return sums[k-1];
-            
+
         }*/
         long returned = 0;
         var maxHeap = new PriorityQueue<long, long>(Comparer<long>.Create((x, y) => y.CompareTo(x)));
-        if (root == null) return -1; 
+        if (root == null)
+        {
+            return -1;
+        }
 
-        Queue<TreeNode> queue = new Queue<TreeNode>();
-        queue.Enqueue(root); 
+        Queue<TreeNode> queue = new();
+        queue.Enqueue(root);
 
         while (queue.Count > 0)
         {
-            long levelSize = queue.Count; 
-            long currSum = 0; 
+            long levelSize = queue.Count;
+            long currSum = 0;
 
-            for (int i = 0; i < levelSize; i++)
+            for (var i = 0; i < levelSize; i++)
             {
-                TreeNode currNode = queue.Dequeue(); 
-                currSum += currNode.val; 
+                var currNode = queue.Dequeue();
+                currSum += currNode.val;
 
                 if (currNode.left != null)
                 {
                     queue.Enqueue(currNode.left);
                 }
 
-                
+
                 if (currNode.right != null)
                 {
                     queue.Enqueue(currNode.right);
                 }
             }
 
-            
-            maxHeap.Enqueue(currSum,currSum);
+
+            maxHeap.Enqueue(currSum, currSum);
         }
 
-        for (int i = 0; i < k; i++)
+        for (var i = 0; i < k; i++)
         {
-            if (maxHeap.Count != 0) 
+            if (maxHeap.Count != 0)
             {
                 returned = maxHeap.Dequeue();
             }
@@ -1422,63 +1437,127 @@
         return returned;
     }
 
-    
 
-    public TreeNode ReplaceValueInTree(TreeNode root) {
-        List<int> depthSum = new List<int>();
-        void Fin(TreeNode root, int val, int d) {
-        if (root == null) return; 
+    public TreeNode ReplaceValueInTree(TreeNode root)
+    {
+        var depthSum = new List<int>();
 
-        root.val = val;
+        void Fin(TreeNode root, int val, int d)
+        {
+            if (root == null)
+            {
+                return;
+            }
 
-        int c = d + 1 < depthSum.Count ? depthSum[d + 1] : 0;
+            root.val = val;
 
-        c -= (root.left != null ? root.left.val : 0);
-        c -= (root.right != null ? root.right.val : 0);
+            var c = d + 1 < depthSum.Count ? depthSum[d + 1] : 0;
 
-        if (root.left != null) Fin(root.left, c, d + 1);
-        if (root.right != null) Fin(root.right, c, d + 1);
+            c -= root.left != null ? root.left.val : 0;
+            c -= root.right != null ? root.right.val : 0;
+
+            if (root.left != null)
+            {
+                Fin(root.left, c, d + 1);
+            }
+
+            if (root.right != null)
+            {
+                Fin(root.right, c, d + 1);
+            }
         }
 
-        void Walk(TreeNode root, int d) {
-        if (root == null) return; 
+        void Walk(TreeNode root, int d)
+        {
+            if (root == null)
+            {
+                return;
+            }
 
-        if (d >= depthSum.Count) {
-            depthSum.Add(root.val);
-        }
-        else {
-            depthSum[d] += root.val;
-        }
-        Walk(root.left, d + 1);
-        Walk(root.right, d + 1);
+            if (d >= depthSum.Count)
+            {
+                depthSum.Add(root.val);
+            }
+            else
+            {
+                depthSum[d] += root.val;
+            }
+
+            Walk(root.left, d + 1);
+            Walk(root.right, d + 1);
         }
 
         Walk(root, 0);
         Fin(root, 0, 0);
         return root;
     }
-    
-    public bool FlipEquiv(TreeNode root1, TreeNode root2) {
-        if (root1 == null && root2 == null) return true;
-        if (root1 == null || root2 == null || root1.val != root2.val) return false;
-        bool noFlip = FlipEquiv(root1.left, root2.left) && FlipEquiv(root1.right, root2.right);
-        bool flip = FlipEquiv(root1.left, root2.right) && FlipEquiv(root1.right, root2.left);
+
+    public bool FlipEquiv(TreeNode root1, TreeNode root2)
+    {
+        if (root1 == null && root2 == null)
+        {
+            return true;
+        }
+
+        if (root1 == null || root2 == null || root1.val != root2.val)
+        {
+            return false;
+        }
+
+        var noFlip = FlipEquiv(root1.left, root2.left) && FlipEquiv(root1.right, root2.right);
+        var flip = FlipEquiv(root1.left, root2.right) && FlipEquiv(root1.right, root2.left);
         return noFlip || flip;
     }
 
-    public IList<string> RemoveSubfolders(string[] folder) {
-        if (folder.Length <= 1) return folder.ToList(); 
+    public IList<string> RemoveSubfolders(string[] folder)
+    {
+        if (folder.Length <= 1)
+        {
+            return folder.ToList();
+        }
+
         IList<string> list = new List<string>();
         folder = folder.OrderBy(x => x).ToArray();
-        
+
         list.Add(folder[0]);
-        for(int i =1; i < folder.Length; i++){
-            string lastFolder = list[list.Count - 1] + "/";
-              if (!folder[i].StartsWith(lastFolder)) {
+        for (var i = 1; i < folder.Length; i++)
+        {
+            var lastFolder = list[list.Count - 1] + "/";
+            if (!folder[i].StartsWith(lastFolder))
+            {
                 list.Add(folder[i]);
             }
-        } 
+        }
+
         return list;
     }
- 
+
+    public int CountSquares(int[][] matrix)
+    {
+        int m = matrix.Length, n = matrix[0].Length;
+        var dp = new int[m, n];
+        var count = 0;
+
+        for (var i = 0; i < m; i++)
+        {
+            for (var j = 0; j < n; j++)
+            {
+                if (matrix[i][j] == 1)
+                {
+                    if (i == 0 || j == 0)
+                    {
+                        dp[i, j] = 1;
+                    }
+                    else
+                    {
+                        dp[i, j] = Math.Min(dp[i - 1, j], Math.Min(dp[i, j - 1], dp[i - 1, j - 1])) + 1;
+                    }
+
+                    count += dp[i, j];
+                }
+            }
+        }
+
+        return count;
+    }
 }
