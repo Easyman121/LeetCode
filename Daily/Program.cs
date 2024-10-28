@@ -1562,7 +1562,7 @@
     }
 
     public int LongestSquareStreak(int[] nums) {
-        var set = new HashSet<int>(nums);
+        /*var set = new HashSet<int>(nums);
         Array.Sort(nums);
         int res = 0;
         foreach (int num in nums){
@@ -1576,6 +1576,31 @@
             if (len > 1) res = Math.Max(res, len);
         }
         GC.Collect();
-        return res > 1 ? res : -1;
+        return res > 1 ? res : -1;*/
+        if(nums.Length <2)
+       {
+        return -1;
+       }
+
+       int count = -1;
+
+       HashSet<int> set = new HashSet<int>(nums);
+
+       foreach(int x in nums){
+        int steak = 0;
+        long currVal = x;
+
+        while(set.Contains((int)currVal)){
+            steak++;
+
+            if(currVal * currVal > 1e5){
+                break;
+            }
+            currVal = currVal * currVal;
+        }
+        count = Math.Max(count,steak);
+       }
+       GC.Collect();
+       return count < 2 ? -1 : count; 
     }
 }
