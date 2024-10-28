@@ -1560,4 +1560,22 @@
 
         return count;
     }
+
+    public int LongestSquareStreak(int[] nums) {
+        var set = new HashSet<int>(nums);
+        Array.Sort(nums);
+        int res = 0;
+        foreach (int num in nums){
+            int len = 0;
+            long curr = num;
+            while (curr <= int.MaxValue && set.Contains((int) curr)){
+                len++;
+                curr *= curr;
+            }
+
+            if (len > 1) res = Math.Max(res, len);
+        }
+        GC.Collect();
+        return res > 1 ? res : -1;
+    }
 }
