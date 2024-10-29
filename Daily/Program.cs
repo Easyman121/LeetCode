@@ -1603,4 +1603,44 @@
        GC.Collect();
        return count < 2 ? -1 : count; 
     }
+
+
+
+
+    public int MaxMoves(int[][] grid) {
+        int[][] dp;
+        int[] moves;
+        int DFS(int[][] grid, int row, int col, int prev){
+            if(row < 0 || col < 0 || row >= grid.Length || col >= grid[row].Length || grid[row][col] <= prev){
+                return 0;
+            }
+
+            if(dp[row][col] != -1) return dp[row][col];
+            
+            dp[row][col] = 0;
+            int nextCol = col+1;
+            
+            for(int i=0; i<3; i++)
+                dp[row][col] = Math.Max(dp[row][col], 1+DFS(grid, row+moves[i], nextCol, grid[row][col]));
+
+            return dp[row][col];
+         }
+         
+        int rows = grid.Length, cols = grid[0].Length;
+        moves = new int[3] { -1, 0, 1 };
+        dp = new int[rows][];
+
+        for(int i=0; i<rows; i++){
+            dp[i] = new int[cols];
+            Array.Fill(dp[i], -1);
+        }
+
+        int res = 0;
+
+        for(int i=0; i<rows; i++){
+            res = Math.Max(res, DFS(grid, i, 0, -1));
+        }
+
+        return res-1;
+    } 
 }
