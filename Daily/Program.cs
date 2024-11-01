@@ -1686,4 +1686,20 @@
 
         return n - max;
     } 
+
+    public string MakeFancyString(string s) {
+        if (s.Length == 1 || s.Length == 0) return s;
+        Queue<char> queue = new Queue<char>();
+        int count = 1;
+        queue.Enqueue(s[0]);
+        for (int i = 1; i < s.Length; i++){
+            if (s[i-1] == s[i]){
+                count++;
+            }
+            else count = 1;
+            if (count < 3) queue.Enqueue(s[i]);
+
+        }
+        return new string(queue.ToArray());
+    }
 }
