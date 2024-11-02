@@ -1702,4 +1702,12 @@
         }
         return new string(queue.ToArray());
     }
+
+    public bool IsCircularSentence(string sentence) {
+        string[] s = sentence.Split(' ');
+        for (int i = 1; i < s.Length; i ++)
+            if (s[i - 1][s[i - 1].Length - 1] != s[i][0])
+                return false;
+        return (s[0][0] == s[s.Length - 1][s[s.Length - 1].Length - 1]);
+    }
 }
