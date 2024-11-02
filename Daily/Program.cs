@@ -1704,10 +1704,12 @@
     }
 
     public bool IsCircularSentence(string sentence) {
-        string[] s = sentence.Split(' ');
-        for (int i = 1; i < s.Length; i ++)
-            if (s[i - 1][s[i - 1].Length - 1] != s[i][0])
-                return false;
-        return (s[0][0] == s[s.Length - 1][s[s.Length - 1].Length - 1]);
+        int i = 0;
+        while (i<sentence.Length-1) {
+            if (sentence[i]==' ')
+                if (sentence[i-1]!=sentence[i+1]) return false;
+            i++;
+        }
+        return sentence[0]==sentence[i];
     }
 }
