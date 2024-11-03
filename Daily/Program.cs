@@ -1712,4 +1712,7 @@
         }
         return sentence[0]==sentence[i];
     }
+
+    public bool RotateString(string s, string goal) =>
+    s.Length == goal.Length && (goal + goal).Contains(s);
 }
