@@ -1,4 +1,6 @@
-﻿public class Solution
+﻿using System.Text;
+
+public class Solution
 {
     public static void Main()
     {
@@ -1716,4 +1718,21 @@
     public bool RotateString(string s, string goal) =>
     s.Length == goal.Length && (goal + goal).Contains(s);
 
+    public string CompressedString(string word) {
+        StringBuilder sb = new StringBuilder();
+        char ch = word[0];
+        int count = 1;
+        for (int i =1; i < word.Length; i++){
+            if (ch != word[i] || count == 9){
+                sb.Append(count+ch.ToString());
+                ch = word[i];
+                count = 1;
+            }
+            else {
+                count++;
+            }
+        }
+         sb.Append(count+ch.ToString());
+        return sb.ToString();
+    }
 }
