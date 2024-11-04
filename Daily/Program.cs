@@ -1687,12 +1687,33 @@
         return n - max;
     } 
 
-    public long MinimumTotalDistance(IList<int> robot, int[][] factory) {
-        robot.OrderBy(x=> x);
-        Array.Sort(factory, (a,b)=> a[0].CompareTo(b[0]));
-        int n = robot.Count;
-        long maxval = long.MaxValue;
-        
+    public string MakeFancyString(string s) {
+        if (s.Length == 1 || s.Length == 0) return s;
+        Queue<char> queue = new Queue<char>();
+        int count = 1;
+        queue.Enqueue(s[0]);
+        for (int i = 1; i < s.Length; i++){
+            if (s[i-1] == s[i]){
+                count++;
+            }
+            else count = 1;
+            if (count < 3) queue.Enqueue(s[i]);
 
+        }
+        return new string(queue.ToArray());
     }
+
+    public bool IsCircularSentence(string sentence) {
+        int i = 0;
+        while (i<sentence.Length-1) {
+            if (sentence[i]==' ')
+                if (sentence[i-1]!=sentence[i+1]) return false;
+            i++;
+        }
+        return sentence[0]==sentence[i];
+    }
+
+    public bool RotateString(string s, string goal) =>
+    s.Length == goal.Length && (goal + goal).Contains(s);
+
 }
