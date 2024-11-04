@@ -1686,4 +1686,13 @@
 
         return n - max;
     } 
+
+    public long MinimumTotalDistance(IList<int> robot, int[][] factory) {
+        robot.OrderBy(x=> x);
+        Array.Sort(factory, (a,b)=> a[0].CompareTo(b[0]));
+        int n = robot.Count;
+        long maxval = long.MaxValue;
+        
+
+    }
 }
