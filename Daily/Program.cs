@@ -1735,4 +1735,24 @@ public class Solution
          sb.Append(count+ch.ToString());
         return sb.ToString();
     }
+
+    public int MinChanges(string s) {
+         char lastCh = s[0];
+        int freq = 1, n = s.Length, changes = 0;
+        for(int i=1;i<n;i++)        // O(n)
+            if(s[i]==lastCh)
+                freq++;
+            else if(freq%2==0)
+            {
+                lastCh = s[i];
+                freq = 1;
+            }
+            else
+            {
+                changes++;
+                lastCh = '-';
+                freq = 0;
+            }
+        return changes;
+    }
 }
