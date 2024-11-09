@@ -1755,4 +1755,13 @@ public class Solution
             }
         return changes;
     }
+
+    public long MinEnd(int n, int x) {
+        long result = x;
+        for (var i = 0; i < n - 1; i++){
+            result = (result+1)|x;
+        }
+
+        return result;
+    }
 }
