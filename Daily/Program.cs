@@ -4,9 +4,8 @@ public class Solution
 {
     public static void Main()
     {
-        var ints = new List<int>();
-        ints[0] += 4;
-        Console.WriteLine(ints[3]);
+        Solution solution = new Solution();
+        solution.CountFairPairs(new int[]{0, 1, 7, 4, 4, 5}, 3, 6);
     }
 
 
@@ -1809,5 +1808,25 @@ public class Solution
 
             return result;
         }
+    }
+
+    public long CountFairPairs(int[] nums, int lower, int upper) {
+        Array.Sort(nums); 
+        long count = 0;
+        
+        for (int i = 0; i < nums.Length - 1; i++) {
+            int left = i+1;
+            int right = nums.Length;
+            int leftBound = Array.BinarySearch(nums, left, right - left, lower - nums[i]);
+            int rightBound = Array.BinarySearch(nums, left, right - left, upper - nums[i]);
+            if (leftBound < 0) leftBound = ~leftBound;
+            if (rightBound < 0) rightBound = ~rightBound - 1;
+            
+            if (leftBound <= rightBound) {
+                count += rightBound - leftBound + 1;
+            }
+        }
+        
+        return count;
     }
 }
