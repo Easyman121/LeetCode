@@ -1829,4 +1829,28 @@ public class Solution
         
         return count;
     }
+
+    public bool CheckIfExist(int[] arr) {
+        HashSet<int> hash = new ();
+        for(int i =0; i < arr.Length; i++){
+            if (hash.Contains(2*arr[i]) || (arr[i] %2==0 && hash.Contains(arr[i]/2))){
+                return true;
+            }
+            hash.Add(arr[i]);
+        }
+        return false;
+    }
+
+    public string AddSpaces(string s, int[] spaces) {
+        StringBuilder sb = new StringBuilder();
+        int pointer = 0;
+        for (int i =0; i < s.Length; i++){
+            if (spaces[pointer] == i){
+                if (pointer < spaces.Length) pointer++;
+                sb.Append(' ');
+            }
+            sb.Append(s[i]);
+        }
+        return sb.ToString();
+    }
 }
