@@ -1853,4 +1853,29 @@ public class Solution
         }
         return sb.ToString();
     }
+
+    public bool CanChange(string start, string target) {
+        int waitL =0, waitR =0;
+        for (int i =0; i < target.Length; i++){
+            char current = start[i];
+            char goal = target[i];
+            if (current == 'R') {
+                if (waitL > 0) return false;
+                waitR++;
+            }
+            if (goal == 'L') {
+                if (waitR > 0) return false;
+                waitL++;
+            }
+            if (goal == 'R') {
+                if (waitR == 0) return false;
+                waitR--;
+            }
+            if (current == 'L') {
+                if (waitL == 0) return false;
+                waitL--;
+            }
+        }
+        return waitL == 0 && waitR == 0;
+    }
 }
