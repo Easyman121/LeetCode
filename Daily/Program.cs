@@ -1907,4 +1907,30 @@ public class Solution
 
         return result;
     }
+
+    public int MaximumLength(string s) {
+        Dictionary<string, int> counts = new Dictionary<string, int>();
+
+        int longest = 0;
+
+        char prevChar = '0';
+        int currentConsecutive = 0;
+
+        for(int i = 0; i < s.Length; i++)
+        {
+            if(s[i] == prevChar) currentConsecutive++;
+            else currentConsecutive = 1;
+            prevChar = s[i];
+
+            for(int j = Math.Max(currentConsecutive - 2, 1); j <= currentConsecutive; j++) 
+            {
+                if(!counts.ContainsKey(s[i]+j.ToString())) counts[s[i]+j.ToString()]  = 0;
+
+                counts[s[i]+j.ToString()] += 1;
+                if(counts[s[i]+j.ToString()] >= 3) longest = Math.Max(longest, j);
+            }
+        }
+
+        return longest == 0? -1 : longest;
+    }
 }
