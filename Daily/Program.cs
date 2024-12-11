@@ -1933,4 +1933,23 @@ public class Solution
 
         return longest == 0? -1 : longest;
     }
+
+    public int MaximumBeauty(int[] nums, int k) {
+        Array.Sort(nums);
+        int n = nums.Length;
+         int maxLength = 0;
+        int start = 0;
+
+        for (int end = 0; end < n; end++)
+        {
+            while (nums[end] - nums[start] > 2 * k)
+            {
+                start++;
+            }
+
+            maxLength = Math.Max(maxLength, end - start + 1);
+        }
+
+        return maxLength;
+    }
 }
