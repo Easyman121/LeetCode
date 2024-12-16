@@ -1952,4 +1952,41 @@ public class Solution
 
         return maxLength;
     }
+
+    public int[] GetFinalState(int[] nums, int k, int multiplier) {
+        PriorityQueue<int, int> priority = new PriorityQueue<int, int> ();
+        for (int i = 0; i < nums.Length; i++){
+            priority.Enqueue(i, nums[i]);
+        } 
+        for (int i = 0; i < k; i++){
+            priority.TryDequeue(out int index, out int num);
+            num *= multiplier;
+            priority.Enqueue(index, num);
+        } 
+        for (int i =0; i < nums.Length; i++){
+            priority.TryDequeue(out int index, out int num);
+            nums[index] = num;
+        }  
+        return nums;
+        /*
+        for (int i=0; i<k; i++)
+		{
+			int min = Int32.MaxValue;
+			int minIndex = 0;
+			
+			for (int j=0; j<nums.Length; j++)
+			{
+				if (nums[j] < min)
+				{
+					minIndex = j;
+					min = nums[j];
+				}
+			}
+			
+			nums[minIndex] *= multiplier;
+		}
+		
+		return nums;
+        */
+    }
 }
