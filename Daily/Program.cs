@@ -1989,4 +1989,54 @@ public class Solution
 		return nums;
         */
     }
+
+    public string RepeatLimitedString(string s, int repeatLimit) {
+        int[] counts = new int[26];
+        foreach (char c in s) {
+            counts[c - 'a']++;
+        }
+
+        var builder = new StringBuilder();
+        int cur = 'z' - 'a';
+        while (cur >= 0) {
+            if (counts[cur] == 0) {
+                cur--;
+                continue;
+            }
+
+            int take = Math.Min(counts[cur], repeatLimit);
+            counts[cur] -= take;
+            for (int i = 0; i < take; i++) {
+                builder.Append((char)('a' + cur));
+            }
+            if (take < repeatLimit || counts[cur] == 0) {
+                continue;
+            }
+
+            int fill = cur - 1;
+            while (fill >= 0 && counts[fill] == 0) {
+                fill--;
+            }
+            if (fill < 0) {
+                break;
+            }
+
+            builder.Append((char)('a' + fill));
+            counts[fill]--;
+        }
+
+        return builder.ToString();
+    }
+
+    public int[] FinalPrices(int[] prices) {
+        for (int i =0; i < prices.Length; i++){
+            for (int j = i+1; j < prices.Length; j++){
+                if (prices[j] <= prices[i]){
+                    prices[i]-=prices[j];
+                    break;
+                }
+            }
+        }   
+        return prices;
+    }
 }
