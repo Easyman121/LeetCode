@@ -2049,4 +2049,29 @@ public class Solution
         }
         return totalChunks+1;
     }
+
+    
+    public IList<int> LargestValues(TreeNode root) {
+        List<int> maxVals = new List<int>();
+
+        void Traverse(int index, TreeNode node) {
+            if (node == null) return;
+
+            if (maxVals.Count <= index) {
+                maxVals.Add(node.val);
+            } else {
+                maxVals[index] = Math.Max(maxVals[index], node.val);
+            }
+
+            Traverse(index + 1, node.left);
+            Traverse(index + 1, node.right);
+        }
+
+        if (root == null) return maxVals;
+
+        maxVals.Add(root.val);
+        Traverse(1, root.left);
+        Traverse(1, root.right);
+        return maxVals;
+    }
 }
